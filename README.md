@@ -14,7 +14,7 @@ In any case, the basic plan is to start with the deserializer first (i.e. read o
 
 In separating the project, the serializer will no longer have access to the internal calls in 'Archetype', but I am hoping that this will actually be a positive factor. For json reads we would only need the Models. However json writes are a litle more complex.
 
-Also, as a result of the separation, we are possibly introducing the potential for breaking changes. However, I will attempt to control these by suing version checking.
+Also, as a result of the separation, we are possibly introducing the potential for breaking changes. However, I will attempt to control these by using version checking.
 
 For anybody who wants to play with a version of Archetype that contains the serializer, you can have a look at my original fork here: https://github.com/cankoluman/Archetype/tree/stable. However, development in this fork will cease.
 
