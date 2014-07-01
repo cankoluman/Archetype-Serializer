@@ -8,7 +8,7 @@ Background : It all started off as a fork of the Archetype project. The intial i
 
 The reasons behind the change are the complexity of the serializer and well as some reports of data loss, that might have been caused by the serializer's delinter.
 
-I have not been able to replicate any data loss scenarios and would be grateful to any feedback - in particular 'before' and 'after' jsons strings for the affected data if available.
+I have not been able to replicate any data loss scenarios and would be grateful for any feedback - in particular 'before' and 'after' jsons strings for the affected data if available.
 
 In any case, the basic plan is to start with the deserializer first (i.e. read only functionality), and then progress to the serializer (write).
 
