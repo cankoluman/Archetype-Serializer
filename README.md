@@ -4,7 +4,7 @@ Archetype-Serialization
 Archetype Serialization
 This project aims to provide a serialzier / deserializer for the excellent Archetype package for Umbraco: https://github.com/imulus/Archetype.
  
-Background : It all started off as a fork of the Archetype project. The intial idea was to create a serializer that lived inside the Archetype project. However, the serializer will now be living outside of the official Archetype project. 
+Background : It all started off as a fork of the Archetype project. The initial idea was to create a serializer that lived inside the Archetype project. However, the serializer will now be living outside of the official Archetype project. 
 
 The reasons behind the change are the complexity of the serializer and well as some reports of data loss, that might have been caused by the serializer's delinter.
 
