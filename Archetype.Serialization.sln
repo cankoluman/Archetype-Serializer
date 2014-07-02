@@ -13,11 +13,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archetype.Serialization.Test", "Archetype.Serialization.Test\Archetype.Serialization.Test.csproj", "{3192E32D-C9E0-45D0-9F40-B693DA006F1E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReferenceCms", "ReferenceCms", "{2061ADC1-05F8-4917-B33C-F1729C43B622}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7.1.4", "7.1.4", "{3B46370C-CF95-48CC-A21E-527425E8D596}"
 	ProjectSection(SolutionItems) = preProject
 		ReferenceCms\login.txt = ReferenceCms\login.txt
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7.1.4", "7.1.4", "{3B46370C-CF95-48CC-A21E-527425E8D596}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "7.1.4", "ReferenceCms\7.1.4\7.1.4.csproj", "{E2ED3D3A-1EDA-4034-84C0-BE0C3FC012D5}"
 EndProject
