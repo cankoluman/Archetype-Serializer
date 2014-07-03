@@ -1,9 +1,10 @@
 ﻿using System;
+using Archetype.Serializer.Attributes;
 using Newtonsoft.Json;
 
 namespace Archetype.Serializer.Test
 {
-    [Serializer.Attributes.AsArchetype("simpleModel")]
+    [ArchetypeModel("simpleModel")]
     public class SimpleModel
     {
         [JsonProperty("date")]
@@ -18,7 +19,7 @@ namespace Archetype.Serializer.Test
         public int NodePicker { get; set; }
     }
 
-    [Serializer.Attributes.AsArchetype("nestedModel")]
+    [ArchetypeModel("nestedModel")]
     public class NestedModel
     {
         [JsonProperty("textString")]

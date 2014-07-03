@@ -50,8 +50,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArchetypeJsonConverter.cs" />
-    <Compile Include="Attributes\AsArchetypeAttribute.cs" />
-    <Compile Include="Attributes\AsFieldsetAttribute.cs" />
+    <Compile Include="Attributes\ArchetypeModelAttribute.cs" />
+    <Compile Include="Attributes\FieldsetModelAttribute.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Helpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

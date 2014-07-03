@@ -12,7 +12,7 @@ namespace Archetype.Serializer
         public static string GetFieldsetName(this Type type)
         {
             var attributes = type.GetCustomAttributes(true);
-            var archetypeDatatypeAttribute = (AsArchetypeAttribute)attributes.FirstOrDefault(attr => attr is AsArchetypeAttribute);
+            var archetypeDatatypeAttribute = (ArchetypeModelAttribute)attributes.FirstOrDefault(attr => attr is ArchetypeModelAttribute);
 
             return archetypeDatatypeAttribute != null ? archetypeDatatypeAttribute.FieldsetName : type.Name;
         }
@@ -33,6 +33,14 @@ namespace Archetype.Serializer
             return obj.GetType()
                 .GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 .Where(prop => !Attribute.IsDefined(prop, typeof(JsonIgnoreAttribute)));
+        }
+
+        public static T GetModelFromArchetypeJson<T>(this string json,
+            bool returnInstanceIfNull = false)
+            where T : class, new()
+        {
+            return JsonConvert.DeserializeObject<T>(json, new ArchetypeJsonConverter()) ??
+                   (returnInstanceIfNull ? Activator.CreateInstance<T>() : default(T));
         }
 
     }

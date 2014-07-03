@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Archetype.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -47,9 +48,12 @@ namespace Archetype.Serializer
 
                     var propValue = fieldsetList.Select(fs =>
                     {
-                        var method = fs.GetType().GetMethod("GetValue");
-                        return method.MakeGenericMethod(propertyType).Invoke(fs, null);
-                    });
+                        var method = fs.GetType()
+                            .GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                            .First(m => m.IsGenericMethod && m.Name.Equals("GetValue"));
+                        var genericMethod = method.MakeGenericMethod(propertyType);
+                        return genericMethod.Invoke(fs, new object[] { propertyAlias });
+                    }).Single();
 
                     propInfo.SetValue(model, propValue);
                 }

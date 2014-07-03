@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Base\TestBase.cs" />
     <Compile Include="Helpers.cs">
       <SubType>Code</SubType>
     </Compile>

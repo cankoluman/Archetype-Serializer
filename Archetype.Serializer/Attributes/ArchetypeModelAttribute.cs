@@ -2,11 +2,11 @@
 
 namespace Archetype.Serializer.Attributes
 {
-    public class AsArchetypeAttribute : Attribute
+    public class ArchetypeModelAttribute : Attribute
     {
         public string FieldsetName { get; set; }
 
-        public AsArchetypeAttribute(string fieldsetname)
+        public ArchetypeModelAttribute(string fieldsetname)
         {
             FieldsetName = fieldsetname;
         }

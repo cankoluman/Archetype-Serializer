@@ -1,11 +1,12 @@
 ﻿using Archetype.Models;
+using Archetype.Serializer.Test.Base;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
 namespace Archetype.Serializer.Test
 {
     [TestFixture]
-    public class SerializationTests
+    public class SerializationTests : TestBase
     {
         private Helpers _testHelpers;
 
@@ -62,9 +63,10 @@ namespace Archetype.Serializer.Test
         public void ArchetypeJsonConverter_DeserializesSimpleModel()
         {
             var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor("simpleModel");
-            var model = JsonConvert.DeserializeObject<SimpleModel>(json);
+            var model = json.GetModelFromArchetypeJson<SimpleModel>();
 
             Assert.IsInstanceOf<SimpleModel>(model);
+            AssertAreEqual(_testHelpers.GetSimpleModel(), model);
         }
 
     }

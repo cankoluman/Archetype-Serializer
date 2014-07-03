@@ -2,7 +2,7 @@
 
 namespace Archetype.Serializer.Attributes
 {
-    public class AsFieldsetAttribute : Attribute
+    public class FieldsetModelAttribute : Attribute
     {
     }
 }
