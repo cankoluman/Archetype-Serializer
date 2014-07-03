@@ -7,9 +7,13 @@
 	<title>@Umbraco.Field("pageName")</title>
 	</head>
 	<body>
+	    <fieldset style="border:1px solid #000;margin:2em;padding:2em;width:90%">
+	        <legend>Simple Model</legend>
+	        @(Model.Content.GetProperty("simpleModel").DataValue)
+	    </fieldset>
     <fieldset style="border:1px solid #000;margin:2em;padding:2em;width:90%">
-        <legend>Simple Model</legend>
-        @(Model.Content.GetProperty("simpleModel").DataValue)
+        <legend>Nested Model</legend>
+        @(Model.Content.GetProperty("nestedModel").DataValue)
     </fieldset>
 	</body>
 	</html>

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Archetype.Models;
+﻿using Archetype.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Schema;
 using NUnit.Framework;
 
 namespace Archetype.Serialization.Test
@@ -28,12 +22,14 @@ namespace Archetype.Serialization.Test
         }
 
         [TestCase("simpleModel")]
+        [TestCase("nestedModel")]
         public void PropertyIsNotNullOrEmpty(string propAlias)
         {
             Assert.IsNotNullOrEmpty(_testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias));
         }
 
         [TestCase("simpleModel")]
+        [TestCase("nestedModel")]
         public void IsJsonValid(string propAlias)
         {
             var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias);
@@ -41,6 +37,7 @@ namespace Archetype.Serialization.Test
         }
 
         [TestCase("simpleModel")]
+        [TestCase("nestedModel")]
         public void IsJsonValidArchetype(string propAlias)
         {
             var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias);
@@ -48,6 +45,7 @@ namespace Archetype.Serialization.Test
         }
 
         [TestCase("simpleModel")]
+        [TestCase("nestedModel")]
         public void JsonDeserializesToArchetype(string propAlias)
         {
             var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias);
