@@ -32,31 +32,31 @@ namespace Archetype.Serializer
 
         private object DeserializeFieldsets(Type objectType, IEnumerable<ArchetypeFieldsetModel> fieldsets)
         {
-            var model = Activator.CreateInstance(objectType);
             var fieldsetList = fieldsets.ToList();
 
-            if (fieldsetList.Count() == 1)
+            if (!fieldsetList.Any())
+                return null;
+
+            var fieldsetAlias = objectType.GetFieldsetName();
+            var fieldset = fieldsetList.Single(fs => fs.Alias.Equals(fieldsetAlias));
+
+            var model = Activator.CreateInstance(objectType);
+
+            foreach (var propInfo in model.GetSerialiazableProperties())
             {
-                foreach (var propInfo in model.GetSerialiazableProperties())
-                {
-                    var propertyAlias = propInfo.GetJsonPropertyName();
-                    var propertyType = propInfo.PropertyType;
+                var propertyAlias = propInfo.GetJsonPropertyName();
+                var propertyType = propInfo.PropertyType;
 
-                    if (!fieldsetList.Any(fs => fs.HasProperty(propertyAlias) && 
-                        fs.HasValue(propertyAlias)))
-                            continue;
+                if (!fieldset.HasProperty(propertyAlias) && !fieldset.HasValue(propertyAlias))
+                    continue;
 
-                    var propValue = fieldsetList.Select(fs =>
-                    {
-                        var method = fs.GetType()
-                            .GetMethods(BindingFlags.Public | BindingFlags.Instance)
-                            .First(m => m.IsGenericMethod && m.Name.Equals("GetValue"));
-                        var genericMethod = method.MakeGenericMethod(propertyType);
-                        return genericMethod.Invoke(fs, new object[] { propertyAlias });
-                    }).Single();
+                var method = fieldset.GetType()
+                    .GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                    .First(m => m.IsGenericMethod && m.Name.Equals("GetValue"));
+                var genericMethod = method.MakeGenericMethod(propertyType);
+                var propValue = genericMethod.Invoke(fieldset, new object[] { propertyAlias });
 
-                    propInfo.SetValue(model, propValue);
-                }
+                propInfo.SetValue(model, propValue);
             }
 
             return model;

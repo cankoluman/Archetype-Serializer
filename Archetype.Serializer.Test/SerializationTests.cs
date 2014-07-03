@@ -69,5 +69,14 @@ namespace Archetype.Serializer.Test
             AssertAreEqual(_testHelpers.GetSimpleModel(), model);
         }
 
+        [Test]
+        public void ArchetypeJsonConverter_DeserializesNestedModel()
+        {
+            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor("nestedModel");
+            var model = json.GetModelFromArchetypeJson<NestedModel>();
+
+            Assert.IsInstanceOf<NestedModel>(model);
+            AssertAreEqual(_testHelpers.GetNestedModel(), model);
+        }
     }
 }

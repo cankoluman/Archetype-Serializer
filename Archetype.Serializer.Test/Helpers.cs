@@ -24,5 +24,13 @@ namespace Archetype.Serializer.Test
             };
         }
 
+        public NestedModel GetNestedModel()
+        {
+            return new NestedModel
+            {
+                SimpleModel = GetSimpleModel(),
+                TextField = "Nested Model Text String"
+            };
+        }
     }
 }

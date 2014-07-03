@@ -39,8 +39,9 @@ namespace Archetype.Serializer
             bool returnInstanceIfNull = false)
             where T : class, new()
         {
-            return JsonConvert.DeserializeObject<T>(json, new ArchetypeJsonConverter()) ??
-                   (returnInstanceIfNull ? Activator.CreateInstance<T>() : default(T));
+            var model = JsonConvert.DeserializeObject<T>(json, new ArchetypeJsonConverter());
+            
+            return  model ?? (returnInstanceIfNull ? Activator.CreateInstance<T>() : default(T));
         }
 
     }
