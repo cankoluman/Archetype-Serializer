@@ -12,7 +12,8 @@ namespace Archetype.Serialization.Test
         [TestFixtureSetUp]
         public void FixtureSetUp()
         {
-            _testHelpers = new Helpers();   
+            _testHelpers = new Helpers();
+            _testHelpers.ConsoleCommands.ClearDbLog();
         }
 
         [TestFixtureTearDown]
