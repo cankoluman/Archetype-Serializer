@@ -18,6 +18,8 @@ namespace Archetype.Serialization.Test
         [TestFixtureTearDown]
         public void FixtureTearDown()
         {
+            
+            _testHelpers.ConsoleCommands.ClearDbLog();
             _testHelpers.ConsoleCommands.Exit();
         }
 
