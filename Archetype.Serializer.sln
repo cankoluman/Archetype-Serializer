@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archetype.Serialization", "Archetype.Serialization\Archetype.Serialization.csproj", "{09607BBA-7F23-45E8-8807-2CDF2AD5E3DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archetype.Serializer", "Archetype.Serializer\Archetype.Serializer.csproj", "{09607BBA-7F23-45E8-8807-2CDF2AD5E3DE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{03018DD4-D191-442D-B214-37CFDBB221A3}"
 	ProjectSection(SolutionItems) = preProject
@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{03018D
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archetype.Serialization.Test", "Archetype.Serialization.Test\Archetype.Serialization.Test.csproj", "{3192E32D-C9E0-45D0-9F40-B693DA006F1E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archetype.Serializer.Test", "Archetype.Serializer.Test\Archetype.Serializer.Test.csproj", "{3192E32D-C9E0-45D0-9F40-B693DA006F1E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReferenceCms", "ReferenceCms", "{2061ADC1-05F8-4917-B33C-F1729C43B622}"
 	ProjectSection(SolutionItems) = preProject

@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using NUnit.Framework;
 
-namespace Archetype.Serialization.Test
+namespace Archetype.Serializer.Test
 {
     [TestFixture]
     public class SerializationTests
@@ -57,5 +57,15 @@ namespace Archetype.Serialization.Test
             Assert.IsInstanceOf<ArchetypeModel>(model);
             Assert.IsNotNull(model);
         }
+
+        [Test]
+        public void ArchetypeJsonConverter_DeserializesSimpleModel()
+        {
+            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor("simpleModel");
+            var model = JsonConvert.DeserializeObject<SimpleModel>(json);
+
+            Assert.IsInstanceOf<SimpleModel>(model);
+        }
+
     }
 }

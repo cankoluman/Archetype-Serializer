@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3192E32D-C9E0-45D0-9F40-B693DA006F1E}</ProjectGuid>
+    <ProjectGuid>{09607BBA-7F23-45E8-8807-2CDF2AD5E3DE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Archetype.Serialization.Test</RootNamespace>
-    <AssemblyName>Archetype.Serialization.Test</AssemblyName>
+    <RootNamespace>Archetype.Serializer</RootNamespace>
+    <AssemblyName>Archetype.Serializer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
@@ -40,9 +40,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -52,26 +49,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Helpers.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="ArchetypeJsonConverter.cs" />
+    <Compile Include="Attributes\AsArchetypeAttribute.cs" />
+    <Compile Include="Attributes\AsFieldsetAttribute.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SerializationTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Archetype.Serialization\Archetype.Serialization.csproj">
-      <Project>{09607bba-7f23-45e8-8807-2cdf2ad5e3de}</Project>
-      <Name>Archetype.Serialization</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ReferenceCms\7.1.4\7.1.4.csproj">
-      <Project>{e2ed3d3a-1eda-4034-84c0-be0c3fc012d5}</Project>
-      <Name>7.1.4 %28ReferenceCms\7.1.4\7.1.4%29</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -106,15 +92,6 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
   </Target>
-  <PropertyGroup>
-    <PreBuildEvent>xcopy /D /Y $(SolutionDir)ReferenceCms\7.1.4\App.config $(ProjectDir)</PreBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PostBuildEvent>xcopy /D /Y /E /I $(SolutionDir)ReferenceCms\7.1.4\config $(TargetDir)config
-xcopy /D /Y /E /I $(SolutionDir)ReferenceCms\7.1.4\App_Data $(TargetDir)App_Data
-xcopy /D /Y /E /I $(SolutionDir)ReferenceCms\7.1.4\App_Plugins $(TargetDir)App_Plugins
-xcopy /D /Y /E /I $(SolutionDir)ReferenceCms\7.1.4\bin $(TargetDir)</PostBuildEvent>
-  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

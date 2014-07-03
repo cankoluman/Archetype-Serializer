@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Archetype.Serialization.Attributes;
+using Archetype.Serializer.Attributes;
 using Newtonsoft.Json;
 
-namespace Archetype.Serialization
+namespace Archetype.Serializer
 {
     public static class Extensions
     {
         public static string GetFieldsetName(this Type type)
         {
             var attributes = type.GetCustomAttributes(true);
-            var archetypeDatatypeAttribute = (ArchetypeAttribute)attributes.FirstOrDefault(attr => attr is ArchetypeAttribute);
+            var archetypeDatatypeAttribute = (AsArchetypeAttribute)attributes.FirstOrDefault(attr => attr is AsArchetypeAttribute);
 
             return archetypeDatatypeAttribute != null ? archetypeDatatypeAttribute.FieldsetName : type.Name;
         }
