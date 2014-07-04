@@ -64,7 +64,7 @@ namespace Archetype.Serializer.Test
         public void ArchetypeJsonConverter_DeserializesSimpleModel()
         {
             var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor("simpleModel");
-            var model = json.GetModelFromJson<SimpleModel>(false, new Serialization.ArchetypeJsonConverter());
+            var model = json.GetModelFromArchetypeJson<SimpleModel>();
 
             Assert.IsInstanceOf<SimpleModel>(model);
             AssertAreEqual(_testHelpers.GetSimpleModel(), model);
@@ -74,7 +74,7 @@ namespace Archetype.Serializer.Test
         public void ArchetypeJsonConverter_DeserializesNestedModel()
         {
             var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor("nestedModel");
-            var model = json.GetModelFromJson<NestedModel>();
+            var model = json.GetModelFromArchetypeJson<NestedModel>();
 
             Assert.IsInstanceOf<NestedModel>(model);
             AssertAreEqual(_testHelpers.GetNestedModel(), model);
@@ -84,9 +84,9 @@ namespace Archetype.Serializer.Test
         public void ArchetypeJsonConverter_DeserializesSimpleModelList()
         {
             var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor("simpleModelList");
-            var model = json.GetModelFromArchetypeJson<SimpleModel>();
+            var model = json.GetModelFromArchetypeJson<SimpleModelList>();
 
-            Assert.IsInstanceOf<SimpleModel>(model);
+            Assert.IsInstanceOf<SimpleModelList>(model);
             //AssertAreEqual<List<SimpleModel>>(_testHelpers.GetSimpleModelList(), model);
         }
     }
