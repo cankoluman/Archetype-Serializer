@@ -1,4 +1,5 @@
-﻿using Archetype.Models;
+﻿using System.Collections.Generic;
+using Archetype.Models;
 using Archetype.Serializer.Test.Base;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -77,6 +78,16 @@ namespace Archetype.Serializer.Test
 
             Assert.IsInstanceOf<NestedModel>(model);
             AssertAreEqual(_testHelpers.GetNestedModel(), model);
+        }
+
+        [Test]
+        public void ArchetypeJsonConverter_DeserializesSimpleModelList()
+        {
+            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor("simpleModelList");
+            var model = json.GetModelFromArchetypeJson<SimpleModel>();
+
+            Assert.IsInstanceOf<SimpleModel>(model);
+            //AssertAreEqual<List<SimpleModel>>(_testHelpers.GetSimpleModelList(), model);
         }
     }
 }

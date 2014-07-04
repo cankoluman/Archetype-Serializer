@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using _7._1._4.ConsoleApp;
 
 namespace Archetype.Serializer.Test
@@ -36,6 +37,15 @@ namespace Archetype.Serializer.Test
                     TrueFalse = false
                 },
                 TextField = "Nested Model Text String"
+            };
+        }
+
+        public List<SimpleModel> GetSimpleModelList()
+        {
+            return new SimpleModelList
+            {
+                GetSimpleModel(),
+                GetSimpleModel()
             };
         }
     }

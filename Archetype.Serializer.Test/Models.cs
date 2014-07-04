@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Archetype.Serializer.Attributes;
 using Newtonsoft.Json;
+using NUnit.Framework;
 
 namespace Archetype.Serializer.Test
 {
@@ -26,5 +28,10 @@ namespace Archetype.Serializer.Test
         public string TextField { get; set; }
         [JsonProperty("simpleModel")]
         public SimpleModel SimpleModel { get; set; }
+    }
+
+    [ArchetypeModel("simpleModel")]
+    public class SimpleModelList : List<SimpleModel>
+    {
     }
 }

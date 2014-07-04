@@ -51,7 +51,7 @@ namespace Archetype.Serializer
             where T : class, new()
         {
             var model = json.GetModelFromJson<T>(returnInstanceIfNull, 
-                new Serialization.ArchetypeJsonConverter());
+                new ArchetypeJsonConverter());
 
             return model ?? (returnInstanceIfNull ? Activator.CreateInstance<T>() : default(T));
         }
