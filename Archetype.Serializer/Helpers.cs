@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using Archetype.Serializer.Attributes;
 
 
@@ -22,6 +23,13 @@ namespace Archetype.Serializer
         {
             return value != null &&
                 IsModelArchetype(value.GetType());
+        }
+
+        public static bool IsArchetypeJson(string input)
+        {
+            var archetypeRegex = new Regex(@"^\{\s*?\\*?""fieldsets\\*?""\s*?:\s*?\[[\s\S]*?\]\s*?}$", 
+                RegexOptions.Multiline);
+            return !String.IsNullOrWhiteSpace(input) && archetypeRegex.IsMatch(input);
         }
     }
 }
