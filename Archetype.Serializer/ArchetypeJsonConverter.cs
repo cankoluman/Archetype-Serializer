@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -38,8 +39,51 @@ namespace Archetype.Serializer
                 return null;
 
             var fieldsetAlias = objectType.GetFieldsetName();
-            var fieldset = fieldsetList.Single(fs => fs.Alias.Equals(fieldsetAlias));
 
+            var selectedFieldsets = fieldsetList
+                .Where(fs => fs.Alias.Equals(fieldsetAlias))
+                .ToList();
+
+            if (!selectedFieldsets.Any())
+                return null;
+
+            var modelContainer = new List<object>();
+
+
+            foreach (var model in 
+                selectedFieldsets.Select(fieldset => DeserializeModel(objectType, fieldset))
+                .Where(model => model != null))
+            {
+                modelContainer.Add(model);
+            }
+
+            return selectedFieldsets.Count() == 1 ?
+                modelContainer.FirstOrDefault() :
+                modelContainer;
+        }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool CanConvert(Type objectType)
+        {
+            return Helpers.IsModelArchetype(objectType);
+        }
+
+        public override bool CanWrite
+        {
+            get { return false; }
+        }
+
+        #endregion
+
+
+        #region private methods - deserialization
+
+        private object DeserializeModel(Type objectType, ArchetypeFieldsetModel fieldset)
+        {
             var model = Activator.CreateInstance(objectType);
 
             foreach (var propInfo in model.GetSerialiazableProperties())
@@ -70,22 +114,9 @@ namespace Archetype.Serializer
             return model;
         }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool CanConvert(Type objectType)
-        {
-            return Helpers.IsModelArchetype(objectType);
-        }
-
-        public override bool CanWrite
-        {
-            get { return false; }
-        }
-
         #endregion
+
+
 
         //#region private methods - deserialization
 
