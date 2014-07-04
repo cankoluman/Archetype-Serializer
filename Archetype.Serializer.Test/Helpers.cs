@@ -28,7 +28,13 @@ namespace Archetype.Serializer.Test
         {
             return new NestedModel
             {
-                SimpleModel = GetSimpleModel(),
+                SimpleModel = new SimpleModel
+                {
+                    DateField = Convert.ToDateTime("2014-07-07T00:00:00"),
+                    NodePicker = 1061,
+                    TextField = "Simple Model Text String",
+                    TrueFalse = false
+                },
                 TextField = "Nested Model Text String"
             };
         }

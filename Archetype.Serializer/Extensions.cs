@@ -9,7 +9,7 @@ namespace Archetype.Serializer
 {
     public static class Extensions
     {
-        public static string GetFieldsetName(this Type type)
+        internal static string GetFieldsetName(this Type type)
         {
             var attributes = type.GetCustomAttributes(true);
             var archetypeDatatypeAttribute = (ArchetypeModelAttribute)attributes.FirstOrDefault(attr => attr is ArchetypeModelAttribute);
@@ -17,7 +17,7 @@ namespace Archetype.Serializer
             return archetypeDatatypeAttribute != null ? archetypeDatatypeAttribute.FieldsetName : type.Name;
         }
 
-        public static string GetJsonPropertyName(this PropertyInfo propInfo)
+        internal static string GetJsonPropertyName(this PropertyInfo propInfo)
         {
             var attributes = propInfo.GetCustomAttributes(true);
             var jsonPropAttribute = (JsonPropertyAttribute)attributes.FirstOrDefault(attr => attr is JsonPropertyAttribute);
@@ -25,7 +25,7 @@ namespace Archetype.Serializer
             return jsonPropAttribute != null ? jsonPropAttribute.PropertyName : propInfo.Name;
         }
 
-        public static IEnumerable<PropertyInfo> GetSerialiazableProperties(this object obj)
+        internal static IEnumerable<PropertyInfo> GetSerialiazableProperties(this object obj)
         {
             if (obj == null)
                 return new List<PropertyInfo>();
@@ -35,14 +35,25 @@ namespace Archetype.Serializer
                 .Where(prop => !Attribute.IsDefined(prop, typeof(JsonIgnoreAttribute)));
         }
 
-        public static T GetModelFromArchetypeJson<T>(this string json,
-            bool returnInstanceIfNull = false)
+        internal static T GetModelFromJson<T>(this string json,
+            bool returnInstanceIfNull = false, JsonConverter converter = null)
             where T : class, new()
         {
-            var model = JsonConvert.DeserializeObject<T>(json, new ArchetypeJsonConverter());
+            var model = converter != null ?
+                JsonConvert.DeserializeObject<T>(json, converter) :
+                JsonConvert.DeserializeObject<T>(json);
             
             return  model ?? (returnInstanceIfNull ? Activator.CreateInstance<T>() : default(T));
         }
 
+        public static T GetModelFromArchetypeJson<T>(this string json,
+            bool returnInstanceIfNull = false)
+            where T : class, new()
+        {
+            var model = json.GetModelFromJson<T>(returnInstanceIfNull, 
+                new Serialization.ArchetypeJsonConverter());
+
+            return model ?? (returnInstanceIfNull ? Activator.CreateInstance<T>() : default(T));
+        }
     }
 }

@@ -21,8 +21,8 @@ namespace Archetype.Serializer
 
             try
             {
-                var archetypeModel = JsonConvert.DeserializeObject<ArchetypeModel>(jToken.ToString());
-                return DeserializeFieldsets(objectType, archetypeModel);
+                return DeserializeFieldsets(objectType, 
+                    jToken.ToString().GetModelFromJson<ArchetypeModel>());
             }
             catch (Exception ex)
             {
@@ -49,6 +49,14 @@ namespace Archetype.Serializer
 
                 if (!fieldset.HasProperty(propertyAlias) && !fieldset.HasValue(propertyAlias))
                     continue;
+
+                if (Helpers.IsModelArchetype(propertyType))
+                {
+                    var archetypeModel = fieldset.GetValue(propertyAlias)
+                        .GetModelFromJson<ArchetypeModel>();
+                    propInfo.SetValue(model, DeserializeFieldsets(propertyType, archetypeModel));
+                    continue;                    
+                }
 
                 var method = fieldset.GetType()
                     .GetMethods(BindingFlags.Public | BindingFlags.Instance)
