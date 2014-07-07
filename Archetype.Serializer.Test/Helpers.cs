@@ -13,6 +13,8 @@ namespace Archetype.Serializer.Test
             ConsoleCommands = new Commands();
         }
 
+        #region basic models
+
         public SimpleModel GetSimpleModel()
         {
             return new SimpleModel
@@ -89,5 +91,34 @@ namespace Archetype.Serializer.Test
                 }
             };
         }
+
+        #endregion
+
+        #region advanced models
+
+        public MultiFieldsetModel GetMultiFieldsetModel()
+        {
+            return new MultiFieldsetModel
+            {
+                NestedModel = new NestedModel
+                {
+                    SimpleModel = new SimpleModel
+                    {
+                        DateField = Convert.ToDateTime("2014-07-08T00:00:00"),
+                        NodePicker = 1068,
+                        TextField = "MF NM Simple Model Text"
+                    },
+                    TextField = "MF Nested Model Text"
+                },
+                SimpleModel = new SimpleModel
+                {   
+                    DateField = Convert.ToDateTime("2014-07-07T00:00:00"),
+                    NodePicker = 1068,
+                    TextField = "MF Simple Model Text"
+                }
+            };
+        }
+
+        #endregion
     }
 }

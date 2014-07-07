@@ -56,9 +56,12 @@ namespace _7._1._4.ConsoleApp
         private IContent GetContent(int? pageId)
         {
             return pageId.HasValue ?
-                ConsoleApp.ContentService.GetDescendants(-1)
+                ConsoleApp.ContentService.GetRootContent()
                     .FirstOrDefault(c => c.Published && c.Id == pageId.Value) :
-                ConsoleApp.ContentService.GetRootContent().FirstOrDefault(c => c.Published);
+                ConsoleApp.ContentService.GetRootContent()                    
+                    .Where(c => c.Published)
+                    .OrderBy(c => c.SortOrder)
+                    .FirstOrDefault();
         }
     }
 }

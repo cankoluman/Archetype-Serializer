@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdvancedDeserializationTests.cs" />
     <Compile Include="Base\TestBase.cs" />
     <Compile Include="Helpers.cs">
       <SubType>Code</SubType>
@@ -59,7 +60,7 @@
     <Compile Include="HelperTests.cs" />
     <Compile Include="Models.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SerializationTests.cs" />
+    <Compile Include="BasicDeserializationTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Archetype.Serializer\Archetype.Serializer.csproj">

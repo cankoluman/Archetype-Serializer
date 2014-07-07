@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Archetype.Models;
 using Archetype.Serializer.Test.Base;
 using Newtonsoft.Json;
@@ -8,7 +7,7 @@ using NUnit.Framework;
 namespace Archetype.Serializer.Test
 {
     [TestFixture]
-    public class SerializationTests : TestBase
+    public class BasicDeserializationTests : TestBase
     {
         private Helpers _testHelpers;
 
@@ -21,14 +20,15 @@ namespace Archetype.Serializer.Test
 
         [TestFixtureTearDown]
         public void FixtureTearDown()
-        {
-            
+        {            
             _testHelpers.ConsoleCommands.ClearDbLog();
             _testHelpers.ConsoleCommands.Exit();
         }
 
         [TestCase("simpleModel")]
         [TestCase("nestedModel")]
+        [TestCase("simpleModelList")]
+        [TestCase("nestedModelList")]
         public void PropertyIsNotNullOrEmpty(string propAlias)
         {
             Assert.IsNotNullOrEmpty(_testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias));
@@ -36,6 +36,8 @@ namespace Archetype.Serializer.Test
 
         [TestCase("simpleModel")]
         [TestCase("nestedModel")]
+        [TestCase("simpleModelList")]
+        [TestCase("nestedModelList")]
         public void IsJsonValid(string propAlias)
         {
             var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias);
@@ -44,6 +46,8 @@ namespace Archetype.Serializer.Test
 
         [TestCase("simpleModel")]
         [TestCase("nestedModel")]
+        [TestCase("simpleModelList")]
+        [TestCase("nestedModelList")]
         public void IsJsonValidArchetype(string propAlias)
         {
             var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias);
@@ -52,6 +56,8 @@ namespace Archetype.Serializer.Test
 
         [TestCase("simpleModel")]
         [TestCase("nestedModel")]
+        [TestCase("simpleModelList")]
+        [TestCase("nestedModelList")]
         public void JsonDeserializesToArchetype(string propAlias)
         {
             var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias);

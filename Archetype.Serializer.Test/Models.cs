@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Archetype.Serializer.Attributes;
 using Newtonsoft.Json;
-using NUnit.Framework;
 
 namespace Archetype.Serializer.Test
 {
@@ -38,5 +37,14 @@ namespace Archetype.Serializer.Test
     [ArchetypeModel("nestedModel")]
     public class NestedModelList : List<NestedModel>
     {
+    }
+
+    [ArchetypeModel("multiFieldsetModel", true)]
+    public class MultiFieldsetModel
+    {
+        [JsonProperty("simpleModel")]
+        public SimpleModel SimpleModel { get; set; }
+        [JsonProperty("nestedModel")]
+        public NestedModel NestedModel { get; set; }
     }
 }
