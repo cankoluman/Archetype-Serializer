@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Archetype.Models;
+﻿using Archetype.Models;
 using Archetype.Serializer.Test.Base;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -14,7 +9,7 @@ namespace Archetype.Serializer.Test
     public class AdvancedDeserializationTests : TestBase
     {
         private Helpers _testHelpers;
-        private int _pageId = 1068;
+        private int _pageId = 1070;
 
         [TestFixtureSetUp]
         public void FixtureSetUp()

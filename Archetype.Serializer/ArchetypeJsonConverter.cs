@@ -102,10 +102,16 @@ namespace Archetype.Serializer
                 var propertyAlias = propInfo.GetJsonPropertyName();
                 var propertyType = propInfo.PropertyType;
 
-                var selectedFieldsets = fieldsetList
-                    .Where(fs => fs.Alias.Equals(propertyAlias));
+                var archetypePropertyAlias = propertyType.GetFieldsetName();
 
-                propInfo.SetValue(obj, DeserializeFieldsets(propertyType, selectedFieldsets)); 
+                var selectedPropJson = fieldsetList
+                    .Single(fs => fs.Alias.Equals(propertyAlias))
+                    .Properties
+                    .Single(prop => prop.Alias.Equals(archetypePropertyAlias))
+                    .GetValue<string>();
+
+                propInfo.SetValue(obj, DeserializeFieldsets(propertyType, 
+                    selectedPropJson.GetModelFromJson<ArchetypeModel>())); 
             }
 
             return obj;
