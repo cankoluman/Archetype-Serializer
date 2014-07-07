@@ -47,19 +47,15 @@ namespace Archetype.Serializer
             if (!selectedFieldsets.Any())
                 return null;
 
-            var modelContainer = new List<object>();
+            var model = Activator.CreateInstance(objectType);
 
-
-            foreach (var model in 
-                selectedFieldsets.Select(fieldset => DeserializeModel(objectType, fieldset))
-                .Where(model => model != null))
+            if (null != model as IEnumerable<object>)
             {
-                modelContainer.Add(model);
+                return DeserializeEnumerableModel(model as IEnumerable<object>, 
+                    selectedFieldsets);
             }
 
-            return selectedFieldsets.Count() == 1 ?
-                modelContainer.FirstOrDefault() :
-                modelContainer;
+            return DeserializeModel(model, selectedFieldsets.Single());
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
@@ -82,11 +78,23 @@ namespace Archetype.Serializer
 
         #region private methods - deserialization
 
-        private object DeserializeModel(Type objectType, ArchetypeFieldsetModel fieldset)
-        {
-            var model = Activator.CreateInstance(objectType);
 
-            foreach (var propInfo in model.GetSerialiazableProperties())
+        private object DeserializeEnumerableModel(object obj, IEnumerable<ArchetypeFieldsetModel> fieldsets)
+        {
+            var itemType = obj.GetType().GetGenericArguments().FirstOrDefault() ??
+                obj.GetType().BaseType.GetGenericArguments().First();
+
+            foreach (var item in fieldsets.Select(fs => DeserializeFieldsets(itemType, new List<ArchetypeFieldsetModel> { fs })))
+            {
+                obj.GetType().GetMethod("Add").Invoke(obj, new[] { item });
+            }
+
+            return obj;
+        }
+
+        private object DeserializeModel(object obj, ArchetypeFieldsetModel fieldset)
+        {
+            foreach (var propInfo in obj.GetSerialiazableProperties())
             {
                 var propertyAlias = propInfo.GetJsonPropertyName();
                 var propertyType = propInfo.PropertyType;
@@ -98,7 +106,7 @@ namespace Archetype.Serializer
                 {
                     var archetypeModel = fieldset.GetValue(propertyAlias)
                         .GetModelFromJson<ArchetypeModel>();
-                    propInfo.SetValue(model, DeserializeFieldsets(propertyType, archetypeModel));
+                    propInfo.SetValue(obj, DeserializeFieldsets(propertyType, archetypeModel));
                     continue;                    
                 }
 
@@ -108,10 +116,10 @@ namespace Archetype.Serializer
                 var genericMethod = method.MakeGenericMethod(propertyType);
                 var propValue = genericMethod.Invoke(fieldset, new object[] { propertyAlias });
 
-                propInfo.SetValue(model, propValue);
+                propInfo.SetValue(obj, propValue);
             }
 
-            return model;
+            return obj;
         }
 
         #endregion
@@ -128,7 +136,7 @@ namespace Archetype.Serializer
         //    return null;
         //}
 
-        //private object DeserializeEnumerableObject(object obj, JToken jToken)
+        //private object DeserializeEnumerableModel(object obj, JToken jToken)
         //{
         //    var model = obj as IEnumerable<object>;
         //    var fsToken = jToken;
