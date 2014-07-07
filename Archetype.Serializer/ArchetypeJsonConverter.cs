@@ -147,11 +147,6 @@ namespace Archetype.Serializer
             return obj;
         }
 
-        private IEnumerable<ArchetypeFieldsetModel> GetSelectedFieldsets(Type objectType, IEnumerable<ArchetypeFieldsetModel> fieldsets)
-        {
-            return fieldsets.Where(fs => fs.Alias.Equals(objectType.GetFieldsetName()));
-        }
-
         #endregion
 
 

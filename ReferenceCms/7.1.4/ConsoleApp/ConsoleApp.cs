@@ -33,8 +33,7 @@ namespace _7._1._4.ConsoleApp
 
         public void Dispose()
         {
-            ConsoleApplicationBase.Dispose();
-            ConsoleApplicationBase = null;
+            _appContext.DisposeIfDisposable();
         }
     }
 }
