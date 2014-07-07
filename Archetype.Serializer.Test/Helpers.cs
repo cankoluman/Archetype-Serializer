@@ -25,6 +25,15 @@ namespace Archetype.Serializer.Test
             };
         }
 
+        public List<SimpleModel> GetSimpleModelList()
+        {
+            return new SimpleModelList
+            {
+                GetSimpleModel(),
+                GetSimpleModel()
+            };
+        }
+
         public NestedModel GetNestedModel()
         {
             return new NestedModel
@@ -40,12 +49,44 @@ namespace Archetype.Serializer.Test
             };
         }
 
-        public List<SimpleModel> GetSimpleModelList()
+        public NestedModelList GetNestedModelList()
         {
-            return new SimpleModelList
+            return new NestedModelList
             {
-                GetSimpleModel(),
-                GetSimpleModel()
+                new NestedModel
+                {
+                    SimpleModel = new SimpleModel
+                    {
+                        DateField = Convert.ToDateTime("2014-07-07T00:00:00"),
+                        NodePicker = 1061,
+                        TextField = "Simple Model Text String 1",
+                        TrueFalse = false
+                    },
+                    TextField = "Nested Model Text String 1"
+                },
+                new NestedModel
+                {
+                    SimpleModel = new SimpleModel
+                    {
+                        DateField = Convert.ToDateTime("2014-07-07T00:00:00"),
+                        NodePicker = 1061,
+                        TextField = "Simple Model Text String 2",
+                        TrueFalse = false
+                    },
+                    TextField = "Nested Model Text String 2"
+                },
+                new NestedModel
+                {
+                    SimpleModel = new SimpleModel
+                    {
+                        DateField = Convert.ToDateTime("2014-07-07T00:00:00"),
+                        DateWithTimeField = Convert.ToDateTime("2014-07-16T14:18:50"),
+                        NodePicker = 1061,
+                        TextField = "Simple Model Text String 3",
+                        TrueFalse = true
+                    },
+                    TextField = "Nested Model Text String 3"
+                }
             };
         }
     }

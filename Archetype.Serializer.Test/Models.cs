@@ -21,6 +21,11 @@ namespace Archetype.Serializer.Test
         public int NodePicker { get; set; }
     }
 
+    [ArchetypeModel("simpleModel")]
+    public class SimpleModelList : List<SimpleModel>
+    {
+    }
+
     [ArchetypeModel("nestedModel")]
     public class NestedModel
     {
@@ -30,8 +35,8 @@ namespace Archetype.Serializer.Test
         public SimpleModel SimpleModel { get; set; }
     }
 
-    [ArchetypeModel("simpleModel")]
-    public class SimpleModelList : List<SimpleModel>
+    [ArchetypeModel("nestedModel")]
+    public class NestedModelList : List<NestedModel>
     {
     }
 }
