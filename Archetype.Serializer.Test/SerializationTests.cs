@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Archetype.Models;
 using Archetype.Serializer.Test.Base;
 using Newtonsoft.Json;
@@ -86,8 +87,15 @@ namespace Archetype.Serializer.Test
             var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor("simpleModelList");
             var model = json.GetModelFromArchetypeJson<SimpleModelList>();
 
+            var expected = _testHelpers.GetSimpleModelList();
+
             Assert.IsInstanceOf<SimpleModelList>(model);
-            //AssertAreEqual<List<SimpleModel>>(_testHelpers.GetSimpleModelList(), model);
+            Assert.AreEqual(expected.Count, model.Count);
+
+            foreach (var item in model)
+            {
+                AssertAreEqual(expected.ElementAt(model.IndexOf(item)) , item);
+            }
         }
     }
 }
