@@ -26,29 +26,33 @@ namespace Archetype.Serializer.Test
         }
 
         [TestCase("multiFieldsetModel")]
+        [TestCase("multiFieldsetModelList")]
         public void PropertyIsNotNullOrEmpty(string propAlias)
         {
-            Assert.IsNotNullOrEmpty(_testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias));
+            Assert.IsNotNullOrEmpty(_testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias, _pageId));
         }
 
-        [TestCase("multiFieldsetModel")]    
+        [TestCase("multiFieldsetModel")]
+        [TestCase("multiFieldsetModelList")]
         public void IsJsonValid(string propAlias)
         {
-            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias);
+            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias, _pageId);
             Assert.DoesNotThrow(() => JsonConvert.DeserializeObject(json));
         }
 
         [TestCase("multiFieldsetModel")]
+        [TestCase("multiFieldsetModelList")]
         public void IsJsonValidArchetype(string propAlias)
         {
-            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias);
+            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias, _pageId);
             Assert.DoesNotThrow(() => JsonConvert.DeserializeObject<ArchetypeModel>(json));
         }
 
         [TestCase("multiFieldsetModel")]
+        [TestCase("multiFieldsetModelList")]
         public void JsonDeserializesToArchetype(string propAlias)
         {
-            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias);
+            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias, _pageId);
             var model = JsonConvert.DeserializeObject<ArchetypeModel>(json);
 
             Assert.IsInstanceOf<ArchetypeModel>(model);
@@ -63,6 +67,16 @@ namespace Archetype.Serializer.Test
 
             Assert.IsInstanceOf<MultiFieldsetModel>(model);
             AssertAreEqual(_testHelpers.GetMultiFieldsetModel(), model);
+        }
+
+        [Test]
+        public void ArchetypeJsonConverter_DeserializesMultiFieldsetModelList()
+        {
+            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor("multiFieldsetModelList", _pageId);
+            var model = json.GetModelFromArchetypeJson<MultiFieldsetModelList>();
+
+            Assert.IsInstanceOf<MultiFieldsetModelList>(model);
+            AssertAreEqual(_testHelpers.GetMultiFieldsetModelList(), model);
         }
     }
 }

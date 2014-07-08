@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection;
 using System.Text.RegularExpressions;
 using Archetype.Serializer.Attributes;
 
@@ -20,13 +19,13 @@ namespace Archetype.Serializer
                 IsModelArchetype(value.GetType());
         }
 
-        public static bool HasMultipleFieldsets(Type type)
+        public static bool ArePropertiesFieldsets(Type type)
         {
             var archetypeAttribute = type
                 .GetCustomAttributes(typeof(ArchetypeModelAttribute), true);
 
             return archetypeAttribute.Length > 0 &&
-                (archetypeAttribute.First() as ArchetypeModelAttribute).MultipleFieldsets;
+                (archetypeAttribute.First() as ArchetypeModelAttribute).ArePropertiesFieldsets;
         }
 
         public static bool IsArchetypeJson(string input)

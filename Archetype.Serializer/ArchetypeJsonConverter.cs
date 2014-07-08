@@ -40,7 +40,7 @@ namespace Archetype.Serializer
 
             var model = Activator.CreateInstance(objectType);
 
-            if (Helpers.HasMultipleFieldsets(objectType))
+            if (Helpers.ArePropertiesFieldsets(objectType))
                 return DeserializeModels(model, fieldsetList);
 
             var modelFieldsets = fieldsetList
@@ -104,14 +104,15 @@ namespace Archetype.Serializer
 
                 var archetypePropertyAlias = propertyType.GetFieldsetName();
 
-                var selectedPropJson = fieldsetList
-                    .Single(fs => fs.Alias.Equals(propertyAlias))
-                    .Properties
-                    .Single(prop => prop.Alias.Equals(archetypePropertyAlias))
-                    .GetValue<string>();
+                var selectedPropertyFieldsets = fieldsetList
+                    .Where(fs => fs.Alias.Equals(propertyAlias))
+                    .SelectMany(fs => fs.Properties)
+                    .Where(prop => prop.Alias.Equals(archetypePropertyAlias))
+                    .SelectMany(prop => prop.GetValue<string>()
+                        .GetModelFromJson<ArchetypeModel>() as IEnumerable<ArchetypeFieldsetModel>);
 
                 propInfo.SetValue(obj, DeserializeFieldsets(propertyType, 
-                    selectedPropJson.GetModelFromJson<ArchetypeModel>())); 
+                    selectedPropertyFieldsets)); 
             }
 
             return obj;

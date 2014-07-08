@@ -119,6 +119,47 @@ namespace Archetype.Serializer.Test
             };
         }
 
+        public MultiFieldsetModelList GetMultiFieldsetModelList()
+        {
+            return new MultiFieldsetModelList
+            {
+                NestedModelList = new NestedModelList
+                {
+                    new NestedModel
+                    {
+                        SimpleModel = new SimpleModel
+                        {
+                            TextField   = "MF NM1 SM 1",
+                            DateField = Convert.ToDateTime("2014-07-08T00:00:00")
+                        },
+                        TextField = "MF NM 1"
+                    },
+                    new NestedModel
+                    {
+                        SimpleModel = new SimpleModel
+                        {
+                            TextField   = "MF NM 2 SM 1",
+                            DateField = Convert.ToDateTime("2014-07-08T00:00:00")
+                        },
+                        TextField = "MF NM 2"
+                    }
+                },
+                SimpleModelList = new SimpleModelList
+                {
+                    new SimpleModel
+                    {
+                        TextField = "MF SM 1",
+                        DateField = Convert.ToDateTime("2014-07-08T00:00:00")
+                    },
+                    new SimpleModel
+                    {
+                        TextField = "MF SM 2",
+                        DateField = Convert.ToDateTime("2014-07-08T00:00:00")
+                    }
+                }
+            };
+        }
+
         #endregion
     }
 }

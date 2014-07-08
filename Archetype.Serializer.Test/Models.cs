@@ -27,7 +27,7 @@ namespace Archetype.Serializer.Test
 
     [ArchetypeModel("nestedModel")]
     public class NestedModel
-    {
+    {        
         [JsonProperty("textString")]
         public string TextField { get; set; }
         [JsonProperty("simpleModel")]
@@ -46,5 +46,14 @@ namespace Archetype.Serializer.Test
         public SimpleModel SimpleModel { get; set; }
         [JsonProperty("nestedModel")]
         public NestedModel NestedModel { get; set; }
+    }
+
+    [ArchetypeModel("multiFieldsetModel", true)]
+    public class MultiFieldsetModelList
+    {
+        [JsonProperty("simpleModel")]
+        public SimpleModelList SimpleModelList { get; set; }
+        [JsonProperty("nestedModel")]
+        public NestedModelList NestedModelList { get; set; }
     }
 }
