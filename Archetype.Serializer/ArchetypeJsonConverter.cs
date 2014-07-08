@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -26,7 +27,7 @@ namespace Archetype.Serializer
             }
             catch (Exception ex)
             {
-                return new {Exception = ex.Message};
+                return new {Exception = ex};
             }
         }
 
@@ -97,38 +98,23 @@ namespace Archetype.Serializer
 
             foreach (var propInfo in obj.GetSerialiazableProperties())
             {
-                IEnumerable<ArchetypePropertyModel> selectedProperties;
-
                 var propertyAlias = propInfo.GetJsonPropertyName();
                 var propertyType = propInfo.PropertyType;
-                var archetypePropertyAlias = propertyType.GetFieldsetName();
 
                 var selectedFieldsets = fieldsetList
                     .Where(fs => fs.Alias.Equals(propertyAlias))
                     .ToList();
 
-                if (propInfo.PropertyType.Namespace.Equals("System"))
+                if (Helpers.IsSystemType(propertyType))
                 {
-                    archetypePropertyAlias = propInfo.GetJsonPropertyName();
-                    selectedProperties = selectedFieldsets
-                        .SelectMany(fs => fs.Properties)
-                        .Where(prop => prop.Alias.Equals(archetypePropertyAlias))
-                        .ToList();
-
-                    propInfo.SetValue(obj, 
-                        selectedProperties.Count() > 1 ?
-                            selectedProperties.Select(p => 
-                                GetArchetypePropValue(selectedFieldsets.First(),
-                                propertyType, archetypePropertyAlias)) :
-                            GetArchetypePropValue(selectedFieldsets.First(),
-                                propertyType, archetypePropertyAlias)); 
-
+                    propInfo.SetValue(obj, GetSytemTypeValue(selectedFieldsets,
+                        propertyType, propInfo.GetJsonPropertyName())); 
                     continue;
                 }
 
-                selectedProperties = selectedFieldsets
+                var selectedProperties = selectedFieldsets
                     .SelectMany(fs => fs.Properties)
-                    .Where(prop => prop.Alias.Equals(archetypePropertyAlias));                    
+                    .Where(prop => prop.Alias.Equals(propertyType.GetFieldsetName()));                    
 
                 var selectedPropertyFieldsets = selectedProperties
                     .Select(prop => prop.GetValue<string>())
@@ -174,6 +160,34 @@ namespace Archetype.Serializer
                 .First(m => m.IsGenericMethod && m.Name.Equals("GetValue"));
             var genericMethod = method.MakeGenericMethod(propertyType);
             return genericMethod.Invoke(fieldset, new object[] { propertyAlias });            
+        }
+
+        private object GetSytemTypeValue(IEnumerable<ArchetypeFieldsetModel> fieldsets,
+            Type propertyType, string propertyAlias)
+        {
+            var fieldsetList = fieldsets.ToList();
+
+            var selectedProperties = fieldsetList
+                .SelectMany(fs => fs.Properties)
+                .Where(prop => prop.Alias.Equals(propertyAlias))
+                .ToList();
+
+            object value;
+            if (Helpers.IsIEnumerableType(propertyType))
+            {
+                value = selectedProperties
+                    .Select(p => GetArchetypePropValue(fieldsetList.First(),
+                        Helpers.GetIEnumerableType(propertyType),
+                        propertyAlias))
+                    .ToList();
+            }
+            else
+            {
+                value = GetArchetypePropValue(fieldsetList.First(),
+                    propertyType, propertyAlias);
+            }
+
+            return value;
         }
 
         #endregion

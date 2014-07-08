@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NUnit.Framework;
 using _7._1._4.ConsoleApp;
 
 namespace Archetype.Serializer.Test
@@ -183,6 +184,23 @@ namespace Archetype.Serializer.Test
             {
                 DateWithTimeField = Convert.ToDateTime("2014-07-15T11:09:18"),
                 TextField = "Sample Text",
+                TrueFalse = true
+            };
+        }
+
+        public NullableSimpleModelAsFieldsetsList GetNullableSimpleModelAsFieldsetsList()
+        {
+            return new NullableSimpleModelAsFieldsetsList
+            {
+                DateWithTimeField = new List<DateTime>
+                {
+                    Convert.ToDateTime("2014-07-15T11:09:18")
+                },
+                TextField = new List<string>
+                {
+                    "Test String 1",
+                    "Test String 2",
+                },
                 TrueFalse = true
             };
         }

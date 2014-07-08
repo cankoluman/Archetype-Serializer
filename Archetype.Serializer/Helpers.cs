@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Archetype.Serializer.Attributes;
@@ -33,6 +34,29 @@ namespace Archetype.Serializer
             var archetypeRegex = new Regex(@"^\{\s*?\\*?""fieldsets\\*?""\s*?:\s*?\[[\s\S]*?\]\s*?}$", 
                 RegexOptions.Multiline);
             return !String.IsNullOrWhiteSpace(input) && archetypeRegex.IsMatch(input);
+        }
+
+        public static Type GetIEnumerableType(Type type)
+        {
+            if (IsIEnumerableType(type))            
+                return type.GetGenericArguments().FirstOrDefault() 
+                ?? type.BaseType.GetGenericArguments().First();
+
+            return null;
+        }
+
+        public static bool IsIEnumerableType(Type type)
+        {
+            return typeof(IEnumerable).IsAssignableFrom(type) && typeof(String) != type;
+        }
+
+        public static bool IsSystemType(Type type)
+        {
+            if (type.Namespace.Equals("System"))
+                return true;
+
+            var ienumerableType = GetIEnumerableType(type);
+            return ienumerableType != null &&  ienumerableType.Namespace.Equals("System");
         }
     }
 }

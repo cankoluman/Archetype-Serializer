@@ -87,4 +87,20 @@ namespace Archetype.Serializer.Test
         [JsonProperty("nodePicker")]
         public int? NodePicker { get; set; }
     }
+
+    [ArchetypeModel("simpleModel", true)]
+    public class NullableSimpleModelAsFieldsetsList
+    {
+        [JsonProperty("date")]
+        [JsonIgnore]
+        public DateTime? DateField { get; set; }
+        [JsonProperty("dateTime")]
+        public IEnumerable<DateTime> DateWithTimeField { get; set; }
+        [JsonProperty("textField")]
+        public IEnumerable<string>  TextField { get; set; }
+        [JsonProperty("trueFalse")]
+        public bool TrueFalse { get; set; }
+        [JsonProperty("nodePicker")]
+        public int? NodePicker { get; set; }
+    }
 }
