@@ -177,6 +177,16 @@ namespace Archetype.Serializer.Test
             };
         }
 
+        public NullableSimpleModelAsFieldsets GetNullableSimpleModelAsFieldsets()
+        {
+            return new NullableSimpleModelAsFieldsets
+            {
+                DateWithTimeField = Convert.ToDateTime("2014-07-15T11:09:18"),
+                TextField = "Sample Text",
+                TrueFalse = true
+            };
+        }
+
         #endregion
     }
 }

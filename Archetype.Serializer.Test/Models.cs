@@ -73,10 +73,11 @@ namespace Archetype.Serializer.Test
     }
 
     [ArchetypeModel("simpleModel", true)]
-    public class SimpleModelAsFieldsets
+    public class NullableSimpleModelAsFieldsets
     {
         [JsonProperty("date")]
-        public DateTime DateField { get; set; }
+        [JsonIgnore]
+        public DateTime? DateField { get; set; }
         [JsonProperty("dateTime")]
         public DateTime? DateWithTimeField { get; set; }
         [JsonProperty("textField")]
