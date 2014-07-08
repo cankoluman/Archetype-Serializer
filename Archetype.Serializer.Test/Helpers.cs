@@ -160,6 +160,23 @@ namespace Archetype.Serializer.Test
             };
         }
 
+        public NullableSimpleModel GetNullableSimpleModelNulled()
+        {
+            return new NullableSimpleModel();
+        }
+
+        public NullableSimpleModel GetNullableSimpleModelPopulated()
+        {
+            return new NullableSimpleModel
+            {
+                DateField = Convert.ToDateTime("2014-07-08"),
+                DateWithTimeField = Convert.ToDateTime("2014-07-15 10:48:44"),
+                NodePicker = 1070,
+                TextField = "Nullable With Text",
+                TrueFalse = true
+            };
+        }
+
         #endregion
     }
 }

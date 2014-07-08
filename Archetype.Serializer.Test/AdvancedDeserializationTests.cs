@@ -27,6 +27,8 @@ namespace Archetype.Serializer.Test
 
         [TestCase("multiFieldsetModel")]
         [TestCase("multiFieldsetModelList")]
+        [TestCase("nullableSimpleModelNull")]
+        [TestCase("nullableSimpleModelValues")]
         public void PropertyIsNotNullOrEmpty(string propAlias)
         {
             Assert.IsNotNullOrEmpty(_testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias, _pageId));
@@ -34,6 +36,8 @@ namespace Archetype.Serializer.Test
 
         [TestCase("multiFieldsetModel")]
         [TestCase("multiFieldsetModelList")]
+        [TestCase("nullableSimpleModelNull")]
+        [TestCase("nullableSimpleModelValues")]
         public void IsJsonValid(string propAlias)
         {
             var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias, _pageId);
@@ -42,6 +46,8 @@ namespace Archetype.Serializer.Test
 
         [TestCase("multiFieldsetModel")]
         [TestCase("multiFieldsetModelList")]
+        [TestCase("nullableSimpleModelNull")]
+        [TestCase("nullableSimpleModelValues")]
         public void IsJsonValidArchetype(string propAlias)
         {
             var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias, _pageId);
@@ -50,6 +56,8 @@ namespace Archetype.Serializer.Test
 
         [TestCase("multiFieldsetModel")]
         [TestCase("multiFieldsetModelList")]
+        [TestCase("nullableSimpleModelNull")]
+        [TestCase("nullableSimpleModelValues")]
         public void JsonDeserializesToArchetype(string propAlias)
         {
             var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias, _pageId);
@@ -77,6 +85,26 @@ namespace Archetype.Serializer.Test
 
             Assert.IsInstanceOf<MultiFieldsetModelList>(model);
             AssertAreEqual(_testHelpers.GetMultiFieldsetModelList(), model);
+        }
+
+        [Test]
+        public void ArchetypeJsonConverter_DeserializesNullableSimpleModel_WithNulls()
+        {
+            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor("nullableSimpleModelNull", _pageId);
+            var model = json.GetModelFromArchetypeJson<NullableSimpleModel>();
+
+            Assert.IsInstanceOf<NullableSimpleModel>(model);
+            AssertAreEqual(_testHelpers.GetNullableSimpleModelNulled(), model);
+        }
+
+        [Test]
+        public void ArchetypeJsonConverter_DeserializesNullableSimpleModel_WithValues()
+        {
+            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor("nullableSimpleModelValues", _pageId);
+            var model = json.GetModelFromArchetypeJson<NullableSimpleModel>();
+
+            Assert.IsInstanceOf<NullableSimpleModel>(model);
+            AssertAreEqual(_testHelpers.GetNullableSimpleModelPopulated(), model);
         }
     }
 }

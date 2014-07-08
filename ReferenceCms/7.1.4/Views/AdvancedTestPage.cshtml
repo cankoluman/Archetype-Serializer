@@ -18,5 +18,13 @@
 	        <legend>Multi Fieldset Model List</legend>
 	        @(Model.Content.GetProperty("multiFieldsetModelList").DataValue)
 	    </fieldset>
+	    <fieldset style="border:1px solid #000;margin:2em;padding:2em;width:90%">
+	        <legend>Nullable Simple Model - Null</legend>
+	        @(Model.Content.GetProperty("nullableSimpleModelNull").DataValue)
+	    </fieldset>
+	    <fieldset style="border:1px solid #000;margin:2em;padding:2em;width:90%">
+	        <legend>Nullable Simple Model - Values</legend>
+	        @(Model.Content.GetProperty("nullableSimpleModelValues").DataValue)
+	    </fieldset>
 	</body>
 	</html>

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -31,6 +30,26 @@ namespace Archetype.Serializer
             }
         }
 
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool CanConvert(Type objectType)
+        {
+            return Helpers.IsModelArchetype(objectType);
+        }
+
+        public override bool CanWrite
+        {
+            get { return false; }
+        }
+
+        #endregion
+
+
+        #region private methods - deserialization
+
         private object DeserializeFieldsets(Type objectType, IEnumerable<ArchetypeFieldsetModel> fieldsets)
         {
             var fieldsetList = fieldsets.ToList();
@@ -52,33 +71,12 @@ namespace Archetype.Serializer
 
             if (null != model as IEnumerable<object>)
             {
-                return DeserializeEnumerableModel(model as IEnumerable<object>, 
+                return DeserializeEnumerableModel(model as IEnumerable<object>,
                     modelFieldsets);
             }
 
             return DeserializeModel(model, modelFieldsets.Single());
         }
-
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool CanConvert(Type objectType)
-        {
-            return Helpers.IsModelArchetype(objectType);
-        }
-
-        public override bool CanWrite
-        {
-            get { return false; }
-        }
-
-        #endregion
-
-
-        #region private methods - deserialization
-
 
         private object DeserializeEnumerableModel(object obj, IEnumerable<ArchetypeFieldsetModel> fieldsets)
         {

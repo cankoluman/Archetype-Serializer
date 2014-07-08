@@ -56,4 +56,34 @@ namespace Archetype.Serializer.Test
         [JsonProperty("nestedModel")]
         public NestedModelList NestedModelList { get; set; }
     }
+
+    [ArchetypeModel("simpleModel")]
+    public class NullableSimpleModel
+    {
+        [JsonProperty("date")]
+        public DateTime? DateField { get; set; }
+        [JsonProperty("dateTime")]
+        public DateTime? DateWithTimeField { get; set; }
+        [JsonProperty("textField")]
+        public string TextField { get; set; }
+        [JsonProperty("trueFalse")]
+        public bool TrueFalse { get; set; }
+        [JsonProperty("nodePicker")]
+        public int? NodePicker { get; set; }        
+    }
+
+    [ArchetypeModel("simpleModel", true)]
+    public class SimpleModelAsFieldsets
+    {
+        [JsonProperty("date")]
+        public DateTime DateField { get; set; }
+        [JsonProperty("dateTime")]
+        public DateTime? DateWithTimeField { get; set; }
+        [JsonProperty("textField")]
+        public string TextField { get; set; }
+        [JsonProperty("trueFalse")]
+        public bool TrueFalse { get; set; }
+        [JsonProperty("nodePicker")]
+        public int? NodePicker { get; set; }
+    }
 }
