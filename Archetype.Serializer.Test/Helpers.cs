@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Archetype.Models;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using _7._1._4.ConsoleApp;
 

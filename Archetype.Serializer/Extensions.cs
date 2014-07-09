@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Archetype.Models;
 using Archetype.Serializer.Attributes;
 using Newtonsoft.Json;
 
@@ -54,6 +55,14 @@ namespace Archetype.Serializer
                 new ArchetypeJsonConverter());
 
             return model ?? (returnInstanceIfNull ? Activator.CreateInstance<T>() : default(T));
+        }
+
+        public static T MapArchetypeToModel<T>(this ArchetypeModel archetype,
+            bool returnInstanceIfNull = false)
+            where T : class, new()
+        {
+            var json = JsonConvert.SerializeObject(archetype);
+            return json.GetModelFromArchetypeJson<T>(returnInstanceIfNull);
         }
     }
 }
