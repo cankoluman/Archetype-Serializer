@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace Archetype.Serializer.Test
 {
     [TestFixture]
-    public class AdvancedDeserializationTests : TestBase
+    public class DeserializationAdvancedModelTests : TestBase
     {
         private Helpers _testHelpers;
         private int _pageId = 1070;

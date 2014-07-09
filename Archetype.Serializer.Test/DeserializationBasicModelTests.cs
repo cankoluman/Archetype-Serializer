@@ -7,7 +7,7 @@ using NUnit.Framework;
 namespace Archetype.Serializer.Test
 {
     [TestFixture]
-    public class BasicDeserializationTests : TestBase
+    public class DeserializationBasicModelTests : TestBase
     {
         private Helpers _testHelpers;
 
