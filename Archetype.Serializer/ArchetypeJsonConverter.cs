@@ -19,15 +19,8 @@ namespace Archetype.Serializer
             if (jToken == null)
                 return null;
 
-            try
-            {
-                return DeserializeFieldsets(objectType, 
-                    jToken.ToString().GetModelFromJson<ArchetypeModel>());
-            }
-            catch (Exception ex)
-            {
-                return ex;
-            }
+            return DeserializeFieldsets(objectType, 
+                jToken.ToString().GetModelFromJson<ArchetypeModel>());
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
