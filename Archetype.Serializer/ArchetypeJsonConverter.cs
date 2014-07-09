@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -27,7 +26,7 @@ namespace Archetype.Serializer
             }
             catch (Exception ex)
             {
-                return new {Exception = ex};
+                return ex;
             }
         }
 
@@ -105,10 +104,27 @@ namespace Archetype.Serializer
                     .Where(fs => fs.Alias.Equals(propertyAlias))
                     .ToList();
 
+                if (!selectedFieldsets.Any())
+                    continue;
+
                 if (Helpers.IsSystemType(propertyType))
                 {
                     propInfo.SetValue(obj, GetSytemTypeValue(selectedFieldsets,
                         propertyType, propInfo.GetJsonPropertyName())); 
+                    continue;
+                }
+
+                if (Helpers.IsNonStringIEnumerableType(propertyType) && 
+                    Helpers.IsSystemType(Helpers.GetIEnumerableType(propertyType)))
+                {
+                    var method = GetType()
+                        .GetMethods(BindingFlags.NonPublic | BindingFlags.Instance)
+                        .First(m => m.IsGenericMethod && m.Name.Equals("GetIEnumerableSytemTypeValue"));
+                    
+                    var genericMethod = method.MakeGenericMethod(Helpers.GetIEnumerableType(propertyType));
+                    var propValue = genericMethod.Invoke(this, new object[] { selectedFieldsets, propertyAlias });
+
+                    propInfo.SetValue(obj, propValue);
                     continue;
                 }
 
@@ -165,29 +181,27 @@ namespace Archetype.Serializer
         private object GetSytemTypeValue(IEnumerable<ArchetypeFieldsetModel> fieldsets,
             Type propertyType, string propertyAlias)
         {
+            return GetArchetypePropValue(fieldsets.First(), propertyType, propertyAlias);
+        }
+
+        private IEnumerable<T> GetIEnumerableSytemTypeValue<T>(IEnumerable<ArchetypeFieldsetModel> fieldsets,
+            string propertyAlias)
+        {
             var fieldsetList = fieldsets.ToList();
+            var selectedProperties = new Dictionary<int, ArchetypePropertyModel>();
 
-            var selectedProperties = fieldsetList
-                .SelectMany(fs => fs.Properties)
-                .Where(prop => prop.Alias.Equals(propertyAlias))
+            foreach (var fs in fieldsetList)
+            {
+                foreach (var prop in fs.Properties.Where(p => p.Alias.Equals(propertyAlias)))
+                {
+                    selectedProperties.Add(fieldsetList.IndexOf(fs), prop);
+                }
+            }
+
+            return selectedProperties
+                .Select(p => (T) GetArchetypePropValue(fieldsetList.ElementAt(p.Key),
+                    typeof (T), propertyAlias))
                 .ToList();
-
-            object value;
-            if (Helpers.IsIEnumerableType(propertyType))
-            {
-                value = selectedProperties
-                    .Select(p => GetArchetypePropValue(fieldsetList.First(),
-                        Helpers.GetIEnumerableType(propertyType),
-                        propertyAlias))
-                    .ToList();
-            }
-            else
-            {
-                value = GetArchetypePropValue(fieldsetList.First(),
-                    propertyType, propertyAlias);
-            }
-
-            return value;
         }
 
         #endregion

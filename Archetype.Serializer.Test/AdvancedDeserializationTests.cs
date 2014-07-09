@@ -1,4 +1,5 @@
-﻿using Archetype.Models;
+﻿using System.Linq;
+using Archetype.Models;
 using Archetype.Serializer.Test.Base;
 using Newtonsoft.Json;
 using NUnit.Framework;
@@ -130,9 +131,21 @@ namespace Archetype.Serializer.Test
         {
             var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor("simpleModelAsFieldsetsList", _pageId);
             var model = json.GetModelFromArchetypeJson<NullableSimpleModelAsFieldsetsList>();
+            var expected = _testHelpers.GetNullableSimpleModelAsFieldsetsList();
 
             Assert.IsInstanceOf<NullableSimpleModelAsFieldsetsList>(model);
-            AssertAreEqual(_testHelpers.GetNullableSimpleModelAsFieldsetsList(), model);
+
+            Assert.AreEqual(expected.DateField, model.DateField);
+            Assert.AreEqual(expected.NodePicker, model.NodePicker);
+            Assert.AreEqual(expected.TrueFalse, model.TrueFalse);
+
+            Assert.AreEqual(expected.DateWithTimeField.ElementAt(0), 
+                model.DateWithTimeField.ElementAt(0));
+
+            Assert.AreEqual(expected.TextField.ElementAt(0),
+                model.TextField.ElementAt(0));
+            Assert.AreEqual(expected.TextField.ElementAt(1),
+                model.TextField.ElementAt(1));
         }
     }
 }
