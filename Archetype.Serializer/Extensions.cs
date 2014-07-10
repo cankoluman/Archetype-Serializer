@@ -5,7 +5,6 @@ using System.Reflection;
 using Archetype.Models;
 using Archetype.Serializer.Attributes;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Archetype.Serializer
 {

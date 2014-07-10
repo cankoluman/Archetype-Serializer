@@ -126,10 +126,10 @@ namespace Archetype.Serializer
 
                 var selectedProperties = selectedFieldsets
                     .SelectMany(fs => fs.Properties)
-                    .Where(prop => prop.Alias.Equals(propertyType.FieldsetName()));                    
+                    .Where(prop => prop.Alias.Equals(propInfo.JsonPropertyName()));                    
 
                 var selectedPropertyFieldsets = selectedProperties
-                    .Select(prop => prop.GetValue<string>())
+                    .Select(prop => prop.Value.ToString())
                     .SelectMany(json => json.JsonToModel<ArchetypeModel>() as IEnumerable<ArchetypeFieldsetModel>);
                 
                 propInfo.SetValue(obj, DeserializeFieldsets(propertyType, 
