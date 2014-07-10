@@ -40,10 +40,9 @@ namespace Archetype.Serializer
 
         #endregion
 
+        #region internal methods
 
-        #region private methods - deserialization
-
-        private object DeserializeFieldsets(Type objectType, IEnumerable<ArchetypeFieldsetModel> fieldsets)
+        internal object DeserializeFieldsets(Type objectType, IEnumerable<ArchetypeFieldsetModel> fieldsets)
         {
             var fieldsetList = fieldsets.ToList();
 
@@ -70,6 +69,10 @@ namespace Archetype.Serializer
 
             return DeserializeModel(model, modelFieldsets.Single());
         }
+
+        #endregion
+
+        #region private methods - deserialization
 
         private object DeserializeEnumerableModel(object obj, IEnumerable<ArchetypeFieldsetModel> fieldsets)
         {

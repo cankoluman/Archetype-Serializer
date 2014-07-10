@@ -5,6 +5,7 @@ using System.Reflection;
 using Archetype.Models;
 using Archetype.Serializer.Attributes;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Archetype.Serializer
 {
@@ -50,7 +51,7 @@ namespace Archetype.Serializer
         public static T ToModel<T>(this string archetypeJson,
             bool returnInstanceIfNull = false)
             where T : class, new()
-        {
+        {                      
             if (!Helpers.IsArchetypeJson(archetypeJson))
                 throw new ArgumentException(String.Format("{0} is not Archetype Json", archetypeJson));
             
@@ -64,8 +65,11 @@ namespace Archetype.Serializer
             bool returnInstanceIfNull = false)
             where T : class, new()
         {
-            var json = JsonConvert.SerializeObject(archetype);
-            return json.ToModel<T>(returnInstanceIfNull);
+            if (archetype == null || !archetype.ToList().Any())
+                return null;
+
+            var jsonConverter = new ArchetypeJsonConverter();
+            return (T)jsonConverter.DeserializeFieldsets(typeof(T), archetype);
         }
     }
 }
