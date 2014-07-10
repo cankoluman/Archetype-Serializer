@@ -20,7 +20,7 @@ namespace Archetype.Serializer
                 return null;
 
             return DeserializeFieldsets(objectType, 
-                jToken.ToString().GetModelFromJson<ArchetypeModel>());
+                jToken.ToString().JsonToModel<ArchetypeModel>());
         }
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
@@ -30,7 +30,7 @@ namespace Archetype.Serializer
 
         public override bool CanConvert(Type objectType)
         {
-            return Helpers.IsModelArchetype(objectType);
+            return Helpers.IsArchetype(objectType);
         }
 
         public override bool CanWrite
@@ -56,7 +56,7 @@ namespace Archetype.Serializer
                 return DeserializeModels(model, fieldsetList);
 
             var modelFieldsets = fieldsetList
-                .Where(fs => fs.Alias.Equals(objectType.GetFieldsetName()))
+                .Where(fs => fs.Alias.Equals(objectType.FieldsetName()))
                 .ToList();
 
             if (!modelFieldsets.Any())
@@ -88,9 +88,9 @@ namespace Archetype.Serializer
         {
             var fieldsetList = fieldsets.ToList();
 
-            foreach (var propInfo in obj.GetSerialiazableProperties())
+            foreach (var propInfo in obj.SerialiazableProperties())
             {
-                var propertyAlias = propInfo.GetJsonPropertyName();
+                var propertyAlias = propInfo.JsonPropertyName();
                 var propertyType = propInfo.PropertyType;
 
                 var selectedFieldsets = fieldsetList
@@ -103,7 +103,7 @@ namespace Archetype.Serializer
                 if (Helpers.IsSystemType(propertyType))
                 {
                     propInfo.SetValue(obj, GetSytemTypeValue(selectedFieldsets,
-                        propertyType, propInfo.GetJsonPropertyName())); 
+                        propertyType, propInfo.JsonPropertyName())); 
                     continue;
                 }
 
@@ -123,11 +123,11 @@ namespace Archetype.Serializer
 
                 var selectedProperties = selectedFieldsets
                     .SelectMany(fs => fs.Properties)
-                    .Where(prop => prop.Alias.Equals(propertyType.GetFieldsetName()));                    
+                    .Where(prop => prop.Alias.Equals(propertyType.FieldsetName()));                    
 
                 var selectedPropertyFieldsets = selectedProperties
                     .Select(prop => prop.GetValue<string>())
-                    .SelectMany(json => json.GetModelFromJson<ArchetypeModel>() as IEnumerable<ArchetypeFieldsetModel>);
+                    .SelectMany(json => json.JsonToModel<ArchetypeModel>() as IEnumerable<ArchetypeFieldsetModel>);
                 
                 propInfo.SetValue(obj, DeserializeFieldsets(propertyType, 
                     selectedPropertyFieldsets)); 
@@ -138,18 +138,18 @@ namespace Archetype.Serializer
 
         private object DeserializeModel(object obj, ArchetypeFieldsetModel fieldset)
         {
-            foreach (var propInfo in obj.GetSerialiazableProperties())
+            foreach (var propInfo in obj.SerialiazableProperties())
             {
-                var propertyAlias = propInfo.GetJsonPropertyName();
+                var propertyAlias = propInfo.JsonPropertyName();
                 var propertyType = propInfo.PropertyType;
 
                 if (!fieldset.HasProperty(propertyAlias) && !fieldset.HasValue(propertyAlias))
                     continue;
 
-                if (Helpers.IsModelArchetype(propertyType))
+                if (Helpers.IsArchetype(propertyType))
                 {
                     var archetypeModel = fieldset.GetValue(propertyAlias)
-                        .GetModelFromJson<ArchetypeModel>();
+                        .JsonToModel<ArchetypeModel>();
                     propInfo.SetValue(obj, DeserializeFieldsets(propertyType, archetypeModel));
                     continue;                    
                 }

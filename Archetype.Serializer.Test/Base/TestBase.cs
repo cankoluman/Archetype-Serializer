@@ -9,7 +9,7 @@ namespace Archetype.Serializer.Test.Base
     {
         protected void AssertAreEqual<T>(T model, T result)
         {
-            foreach (var propInfo in model.GetSerialiazableProperties())
+            foreach (var propInfo in model.SerialiazableProperties())
             {
                 var expected = GetExpectedValue(model, propInfo);
                 var actual = GetActualValue(result, propInfo);
@@ -42,7 +42,7 @@ namespace Archetype.Serializer.Test.Base
 
         private object GetActualValue<T>(T actual, PropertyInfo propInfo)
         {
-            var actualProp = actual.GetSerialiazableProperties().SingleOrDefault(pinfo => pinfo.Name.Equals(propInfo.Name));
+            var actualProp = actual.SerialiazableProperties().SingleOrDefault(pinfo => pinfo.Name.Equals(propInfo.Name));
             return actualProp != null
                 ? actualProp.GetValue(actual, null)
                 : null;

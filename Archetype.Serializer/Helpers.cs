@@ -9,15 +9,22 @@ namespace Archetype.Serializer
 {
     public class Helpers
     {
-        public static bool IsModelArchetype(Type type)
+        public static bool IsArchetype(Type type)
         {
             return type.GetCustomAttributes(typeof(ArchetypeModelAttribute), true).Length > 0;
         }
 
-        public static bool IsModelArchetype(object value)
+        public static bool IsArchetype(object value)
         {
             return value != null &&
-                IsModelArchetype(value.GetType());
+                IsArchetype(value.GetType());
+        }
+
+        public static bool IsArchetypeJson(string input)
+        {
+            var archetypeRegex = new Regex(@"^\{\s*?\\*?""fieldsets\\*?""\s*?:\s*?\[[\s\S]*?\]\s*?}$",
+                RegexOptions.Multiline);
+            return !String.IsNullOrWhiteSpace(input) && archetypeRegex.IsMatch(input);
         }
 
         public static bool ArePropertiesFieldsets(Type type)
@@ -27,13 +34,6 @@ namespace Archetype.Serializer
 
             return archetypeAttribute.Length > 0 &&
                 (archetypeAttribute.First() as ArchetypeModelAttribute).ArePropertiesFieldsets;
-        }
-
-        public static bool IsArchetypeJson(string input)
-        {
-            var archetypeRegex = new Regex(@"^\{\s*?\\*?""fieldsets\\*?""\s*?:\s*?\[[\s\S]*?\]\s*?}$", 
-                RegexOptions.Multiline);
-            return !String.IsNullOrWhiteSpace(input) && archetypeRegex.IsMatch(input);
         }
 
         public static bool IsIEnumerableType(Type type)
