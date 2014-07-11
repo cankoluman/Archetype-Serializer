@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using Archetype.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -25,8 +28,17 @@ namespace Archetype.Serializer
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            var archetype = GenerateArchetype(value);
-            writer.WriteRaw(JsonConvert.SerializeObject(archetype));
+            var models = GenerateModels(value);
+
+            if (models.Count < 1)
+                return;
+
+            if (models.Count == 1 && models[0] == null)
+                return;
+
+            var archetype = SerializeModelToFieldset(models);
+
+            writer.WriteRaw(archetype.ToString(writer.Formatting));
         }
 
         public override bool CanConvert(Type objectType)
@@ -69,11 +81,6 @@ namespace Archetype.Serializer
             }
 
             return DeserializeModel(model, modelFieldsets.Single());
-        }
-
-        internal ArchetypeModel GenerateArchetype(object value)
-        {
-            return new ArchetypeModel();
         }
 
         #endregion
@@ -211,6 +218,124 @@ namespace Archetype.Serializer
         #region private methods - serialization
 
 
+        private IList GenerateModels(object value)
+        {
+            var models = value as IList;
+
+            if (null != models)
+                return models;
+
+            return new List<object>() { value };
+        }
+
+        private JObject SerializeModelToFieldset(IEnumerable models)
+        {
+            var jObj = new JObject
+            {
+                {
+                    "fieldsets",
+                    new JArray(new JRaw(SerializeModels(models)))
+                }
+            };
+            return jObj;
+        }
+
+        private IEnumerable SerializeModels(IEnumerable models)
+        {
+            var fieldsetJson = (from object model in models where null != model select SerializeModel(model)).ToList();
+
+            return String.Join(",", fieldsetJson);
+        }
+
+        private string SerializeModel(object value)
+        {
+            if (value == null)
+                return null;
+
+
+            var jObj = GetJObject(value);
+
+            var fieldsetJson = new StringBuilder();
+            var fieldsetWriter = new StringWriter(fieldsetJson);
+
+            using (var jsonWriter = new JsonTextWriter(fieldsetWriter))
+            {
+                jObj.WriteTo(jsonWriter);
+            }
+
+            return fieldsetJson.ToString();
+        }
+
+        private JObject GetJObject(object obj)
+        {
+            var jObj = new JObject
+                {
+                    {
+                        "alias",
+                        new JValue(obj.GetType().FieldsetName())
+                    },
+                    {
+                        "disabled",
+                        false
+                    }
+                };
+
+            var properties = GetProperties(obj);
+
+            var fsProperties = new List<JObject>();
+
+            foreach (var propertyInfo in properties)
+            {
+                var fsProperty = new JObject();
+                var jProperty = new JProperty("alias", propertyInfo.JsonPropertyName());
+                fsProperty.Add(jProperty);
+
+                var propValue = propertyInfo.GetIndexParameters().Length == 0
+                                    ? propertyInfo.GetValue(obj, null)
+                                    : obj as string;
+
+                fsProperty.Add(
+                    new JProperty("value", GetJPropertyValue(propValue)));
+
+                fsProperties.Add(fsProperty);
+            }
+
+            jObj.Add("properties", new JRaw(JsonConvert.SerializeObject(fsProperties)));
+
+            return jObj;
+        }
+
+        private IEnumerable<PropertyInfo> GetProperties(object obj)
+        {
+            if (obj.GetType() != typeof(string))
+                return obj.SerialiazableProperties();
+
+            var indexer = ((DefaultMemberAttribute)obj.GetType()
+                .GetCustomAttributes(typeof(DefaultMemberAttribute), true)[0]).MemberName;
+
+            return new List<PropertyInfo> { obj.GetType().GetProperty(indexer) };
+        }
+
+        private object GetJPropertyValue(object value)
+        {
+            return Helpers.IsArchetype(value)
+                ? new JRaw(JsonConvert.SerializeObject(value))
+                : Helpers.IsNonStringIEnumerableType(value.GetType()) &&
+                    Helpers.IsArchetype(Helpers.GetIEnumerableType(value.GetType()))
+                        ? new JRaw(SerializeModelToFieldset(value as IEnumerable))
+                        : new JValue(GetSerializedPropertyValue(value));
+        }
+
+        private string GetSerializedPropertyValue(object propValue)
+        {
+            if (propValue == null)
+                return String.Empty;
+
+            if (propValue is bool)
+                return (bool)propValue ? GetSerializedPropertyValue(1) : GetSerializedPropertyValue(0);
+
+            return String.Format("{0}", propValue);
+        }
 
         #endregion
 

@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Reflection;
-using Archetype.Models;
+﻿using Archetype.Models;
 using Archetype.Serializer.Test.Base;
 using Newtonsoft.Json;
 using NUnit.Framework;
-using Archetype.Serializer;
 
 namespace Archetype.Serializer.Test
 {
@@ -31,21 +25,21 @@ namespace Archetype.Serializer.Test
         }
 
         [TestCase("SimpleModel")]
-        public void SimpleModel_Serializes_ToArchetype(string modelAlias)
-        {
-            var model = _testHelpers.GetModel(modelAlias);
-            var converter = new ArchetypeJsonConverter();
-
-            Assert.IsInstanceOf<ArchetypeModel>(converter.GenerateArchetype(model));
-        }
-
-        [TestCase("SimpleModel")]
         public void SimpleModel_Serializes_ToArchetypeJson(string modelAlias)
         {
             var model = _testHelpers.GetModel(modelAlias);
             var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
 
             Assert.IsTrue(Serializer.Helpers.IsArchetypeJson(json));
+        }
+
+        [TestCase("SimpleModel")]
+        public void SimpleModel_Serializes_ToArchetype(string modelAlias)
+        {
+            var model = _testHelpers.GetModel(modelAlias);
+            var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
+
+            Assert.IsInstanceOf<ArchetypeModel>(JsonConvert.DeserializeObject<ArchetypeModel>(json));
         }
 
         [TestCase("SimpleModel")]
