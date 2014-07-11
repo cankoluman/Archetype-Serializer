@@ -60,6 +60,7 @@
     <Compile Include="Models.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DeserializationBasicModelTests.cs" />
+    <Compile Include="SerializationBasicModelTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Archetype.Serializer\Archetype.Serializer.csproj">

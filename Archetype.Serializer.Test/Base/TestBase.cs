@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
@@ -33,6 +34,18 @@ namespace Archetype.Serializer.Test.Base
 
                 AssertAreEqual(expected, actual);
             }
+        }
+
+        protected object GetModelFromJson(string modelAlias, string json)
+        {
+            var method = typeof(Extensions)
+                .GetMethods(BindingFlags.Public | BindingFlags.Static)
+                .First(m => m.IsGenericMethod && m.Name.Equals("ToModel")
+                    && m.GetParameters().Any(p => p.Name.Equals("archetypeJson")));
+
+            var typeAlias = String.Format("{0}.{1}", GetType().Namespace, modelAlias);
+            var genericMethod = method.MakeGenericMethod(Type.GetType(typeAlias));
+            return genericMethod.Invoke(json, new object[] { json, false });            
         }
 
         private object GetExpectedValue<T>(T expected, PropertyInfo propInfo)

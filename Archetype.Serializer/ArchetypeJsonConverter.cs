@@ -25,7 +25,8 @@ namespace Archetype.Serializer
 
         public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            throw new NotImplementedException();
+            var archetype = GenerateArchetype(value);
+            writer.WriteRaw(JsonConvert.SerializeObject(archetype));
         }
 
         public override bool CanConvert(Type objectType)
@@ -35,7 +36,7 @@ namespace Archetype.Serializer
 
         public override bool CanWrite
         {
-            get { return false; }
+            get { return true; }
         }
 
         #endregion
@@ -68,6 +69,11 @@ namespace Archetype.Serializer
             }
 
             return DeserializeModel(model, modelFieldsets.Single());
+        }
+
+        internal ArchetypeModel GenerateArchetype(object value)
+        {
+            return new ArchetypeModel();
         }
 
         #endregion
@@ -199,6 +205,12 @@ namespace Archetype.Serializer
                     typeof (T), propertyAlias))
                 .ToList();
         }
+
+        #endregion
+
+        #region private methods - serialization
+
+
 
         #endregion
 

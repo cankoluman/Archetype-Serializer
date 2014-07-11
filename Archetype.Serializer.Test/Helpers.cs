@@ -18,6 +18,18 @@ namespace Archetype.Serializer.Test
 
         #region basic models
 
+        public object GetModel(string modelAlias)
+        {
+            try
+            {
+                return GetType().GetMethod("Get" + modelAlias).Invoke(this, null);
+            }
+            catch
+            {
+                return null;
+            }
+        }  
+
         public SimpleModel GetSimpleModel()
         {
             return new SimpleModel
