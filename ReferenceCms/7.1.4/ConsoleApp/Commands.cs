@@ -1,14 +1,13 @@
 ﻿using System.Linq;
-using Archetype.Models;
-using Umbraco.Core;
 using Umbraco.Core.Models;
-using Umbraco.Core.Publishing;
+using Umbraco.Web;
 
 namespace _7._1._4.ConsoleApp
 {
     public class Commands
     {
         public ConsoleApp ConsoleApp { get; private set; }
+        public UmbracoHelper UmbracoHelper { get; private set; }
 
         public Commands()
         {
@@ -28,21 +27,6 @@ namespace _7._1._4.ConsoleApp
                 return null;
 
             return content.GetValue<string>(propertyAlias);
-        }
-
-        public ArchetypeModel GetArchetypeFor(string propertyAlias)
-        {
-            return GetArchetypeFor(propertyAlias, null);
-        }
-
-        public ArchetypeModel GetArchetypeFor(string propertyAlias, int? pageId)
-        {
-            var content = GetContent(pageId);
-
-            if (content == null || !content.HasProperty(propertyAlias))
-                return null;
-
-            return content.GetValue<ArchetypeModel>(propertyAlias);
         }
 
         public bool SaveAndPublishArchetypeJson(string propertyAlias, string json, int pageId)
