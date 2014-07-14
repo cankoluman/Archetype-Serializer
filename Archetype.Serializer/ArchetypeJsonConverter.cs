@@ -242,28 +242,16 @@ namespace Archetype.Serializer
 
         private IEnumerable SerializeModels(IEnumerable models)
         {
-            var fieldsetJson = (from object model in models where null != model select SerializeModel(model)).ToList();
+            var fieldsetJson = (from object model in models 
+                                where null != model 
+                                select SerializeModel(model)).ToList();
 
             return String.Join(",", fieldsetJson);
         }
 
         private string SerializeModel(object value)
         {
-            if (value == null)
-                return null;
-
-
-            var jObj = GetJObject(value);
-
-            var fieldsetJson = new StringBuilder();
-            var fieldsetWriter = new StringWriter(fieldsetJson);
-
-            using (var jsonWriter = new JsonTextWriter(fieldsetWriter))
-            {
-                jObj.WriteTo(jsonWriter);
-            }
-
-            return fieldsetJson.ToString();
+            return value == null ? null : GetJObject(value).ToString(Formatting.None);
         }
 
         private JObject GetJObject(object obj)

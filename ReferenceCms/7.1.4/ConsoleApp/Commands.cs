@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using Archetype.Models;
+using Umbraco.Core;
 using Umbraco.Core.Models;
+using Umbraco.Core.Publishing;
 
 namespace _7._1._4.ConsoleApp
 {
@@ -41,6 +43,15 @@ namespace _7._1._4.ConsoleApp
                 return null;
 
             return content.GetValue<ArchetypeModel>(propertyAlias);
+        }
+
+        public bool SaveAndPublishArchetypeJson(string propertyAlias, string json, int pageId)
+        {
+            var content = ConsoleApp.ContentService.GetPublishedVersion(pageId);
+            content.SetValue(propertyAlias, json);
+            var status =  ConsoleApp.ContentService.SaveAndPublishWithStatus(content);
+
+            return status.Success;
         }
 
         public void ClearDbLog()

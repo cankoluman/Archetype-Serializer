@@ -9,6 +9,7 @@ namespace Archetype.Serializer.Test
     public class SerializationBasicModelTests : TestBase
     {
         private Helpers _testHelpers;
+        private int _serializationTestsId = 1074;
 
         [TestFixtureSetUp]
         public void FixtureSetUp()
@@ -28,7 +29,7 @@ namespace Archetype.Serializer.Test
         public void SimpleModel_Serializes_ToArchetypeJson(string modelAlias)
         {
             var model = _testHelpers.GetModel(modelAlias);
-            var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
+            var json = JsonConvert.SerializeObject(model, Formatting.Indented, new ArchetypeJsonConverter());
 
             Assert.IsTrue(Serializer.Helpers.IsArchetypeJson(json));
         }
@@ -50,6 +51,26 @@ namespace Archetype.Serializer.Test
             var actual = GetModelFromJson(modelAlias, json);
 
             AssertAreEqual(model, actual);
+        }
+
+        
+        [TestCase("SimpleModel")]
+        public void SimpleModel_SaveAndPublish_ReturnsCorrectModel(string modelAlias)
+        {
+            var model = _testHelpers.GetModel(modelAlias);
+            var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
+            var propAlias = ToPropertyAlias(modelAlias);
+
+            var result = _testHelpers.ConsoleCommands.SaveAndPublishArchetypeJson(propAlias, 
+                json, _serializationTestsId);
+
+            Assert.AreEqual(true, result);
+
+            var resultModel = _testHelpers.ConsoleCommands.GetArchetypeFor(propAlias, _serializationTestsId);
+            var resultJson = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias, _serializationTestsId);
+
+            //Assert.AreEqual(json, resultJson);
+            AssertAreEqual(model, resultModel);
         }
     }
 }

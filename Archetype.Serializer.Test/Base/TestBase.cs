@@ -48,6 +48,11 @@ namespace Archetype.Serializer.Test.Base
             return genericMethod.Invoke(json, new object[] { json, false });            
         }
 
+        protected string ToPropertyAlias(string input)
+        {
+            return input.Substring(0, 1).ToLowerInvariant() + input.Substring(1);
+        }
+
         private object GetExpectedValue<T>(T expected, PropertyInfo propInfo)
         {
             return propInfo.GetValue(expected, null);
