@@ -69,7 +69,6 @@ namespace Archetype.Serializer.Test
             var resultJson = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias, _serializationTestsId);
 
             var resultModel = GetModelFromJson(modelAlias, resultJson);
-            //Assert.AreEqual(json, resultJson);
             AssertAreEqual(model, resultModel);
         }
     }
