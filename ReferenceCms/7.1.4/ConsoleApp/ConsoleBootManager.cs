@@ -1,5 +1,8 @@
-﻿using Archetype.Models;
+﻿using System;
+using Archetype.Models;
+using Lucene.Net.Documents;
 using Umbraco.Core;
+using Umbraco.Core.Services;
 using umbraco.editorControls;
 using umbraco.interfaces;
 
@@ -20,6 +23,11 @@ namespace _7._1._4.ConsoleApp
             var archetypeAssemblyName = typeof (ArchetypeModel).Assembly.FullName;
 
             base.InitializeApplicationRootPath(baseDirectory);
+        }
+
+        protected override void CreateApplicationContext(DatabaseContext dbContext, ServiceContext serviceContext)
+        {
+            base.CreateApplicationContext(dbContext, serviceContext);
         }
 
         /// <summary>

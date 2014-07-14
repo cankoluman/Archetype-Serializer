@@ -12,18 +12,18 @@ namespace Archetype.Serializer.Test
         private Helpers _testHelpers;
         private const int _serializationTestsId = 1074;
 
-        [TestFixtureSetUp]
+        [SetUp]
         public void FixtureSetUp()
         {
             _testHelpers = new Helpers();
-            _testHelpers.ConsoleCommands.ClearDbLog();
+            _testHelpers.Console.Start();
         }
 
-        [TestFixtureTearDown]
+        [TearDown]
         public void FixtureTearDown()
         {
-            _testHelpers.ConsoleCommands.ClearDbLog();
-            _testHelpers.ConsoleCommands.Exit();
+            _testHelpers.Console.ClearDbLog();
+            _testHelpers.Console.Exit();
         }
 
         [TestCase("SimpleModel")]
@@ -77,12 +77,12 @@ namespace Archetype.Serializer.Test
             var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
             var propAlias = ToPropertyAlias(modelAlias);
 
-            var result = _testHelpers.ConsoleCommands.SaveAndPublishArchetypeJson(propAlias, 
+            var result = _testHelpers.Console.SaveAndPublishArchetypeJson(propAlias, 
                 json, _serializationTestsId);
 
             Assert.AreEqual(true, result);
 
-            var resultJson = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias, _serializationTestsId);
+            var resultJson = _testHelpers.Console.GetArchetypeJsonFor(propAlias, _serializationTestsId);
 
             var resultModel = GetModelFromJson(modelAlias, resultJson);
             AssertAreEqual(model, resultModel);
@@ -95,12 +95,12 @@ namespace Archetype.Serializer.Test
             var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
             var propAlias = ToPropertyAlias(modelAlias);
 
-            var result = _testHelpers.ConsoleCommands.SaveAndPublishArchetypeJson(propAlias,
+            var result = _testHelpers.Console.SaveAndPublishArchetypeJson(propAlias,
                 json, _serializationTestsId);
 
             Assert.AreEqual(true, result);
 
-            var resultJson = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias, _serializationTestsId);
+            var resultJson = _testHelpers.Console.GetArchetypeJsonFor(propAlias, _serializationTestsId);
 
             var resultModel = GetModelFromJson(modelAlias, resultJson) as IList;
 

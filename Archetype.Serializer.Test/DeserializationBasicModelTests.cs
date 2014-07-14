@@ -7,6 +7,7 @@ using NUnit.Framework;
 namespace Archetype.Serializer.Test
 {
     [TestFixture]
+    [Ignore]
     public class DeserializationBasicModelTests : TestBase
     {
         private Helpers _testHelpers;
@@ -15,14 +16,14 @@ namespace Archetype.Serializer.Test
         public void FixtureSetUp()
         {
             _testHelpers = new Helpers();
-            _testHelpers.ConsoleCommands.ClearDbLog();
+            _testHelpers.Console.Start();
         }
 
         [TestFixtureTearDown]
         public void FixtureTearDown()
         {            
-            _testHelpers.ConsoleCommands.ClearDbLog();
-            _testHelpers.ConsoleCommands.Exit();
+            _testHelpers.Console.ClearDbLog();
+            _testHelpers.Console.Exit();
         }
 
         [TestCase("simpleModel")]
@@ -31,7 +32,7 @@ namespace Archetype.Serializer.Test
         [TestCase("nestedModelList")]
         public void PropertyIsNotNullOrEmpty(string propAlias)
         {
-            Assert.IsNotNullOrEmpty(_testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias));
+            Assert.IsNotNullOrEmpty(_testHelpers.Console.GetArchetypeJsonFor(propAlias));
         }
 
         [TestCase("simpleModel")]
@@ -40,7 +41,7 @@ namespace Archetype.Serializer.Test
         [TestCase("nestedModelList")]
         public void IsJsonValid(string propAlias)
         {
-            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias);
+            var json = _testHelpers.Console.GetArchetypeJsonFor(propAlias);
             Assert.DoesNotThrow(() => JsonConvert.DeserializeObject(json));
         }
 
@@ -50,7 +51,7 @@ namespace Archetype.Serializer.Test
         [TestCase("nestedModelList")]
         public void IsJsonValidArchetype(string propAlias)
         {
-            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias);
+            var json = _testHelpers.Console.GetArchetypeJsonFor(propAlias);
             Assert.DoesNotThrow(() => JsonConvert.DeserializeObject<ArchetypeModel>(json));
         }
 
@@ -60,7 +61,7 @@ namespace Archetype.Serializer.Test
         [TestCase("nestedModelList")]
         public void JsonDeserializesToArchetype(string propAlias)
         {
-            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor(propAlias);
+            var json = _testHelpers.Console.GetArchetypeJsonFor(propAlias);
             var model = JsonConvert.DeserializeObject<ArchetypeModel>(json);
 
             Assert.IsInstanceOf<ArchetypeModel>(model);
@@ -70,7 +71,7 @@ namespace Archetype.Serializer.Test
         [Test]
         public void ArchetypeJsonConverter_DeserializesSimpleModel_FromJson()
         {
-            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor("simpleModel");
+            var json = _testHelpers.Console.GetArchetypeJsonFor("simpleModel");
             var model = json.ToModel<SimpleModel>();
 
             Assert.IsInstanceOf<SimpleModel>(model);
@@ -80,7 +81,7 @@ namespace Archetype.Serializer.Test
         [Test]
         public void ArchetypeJsonConverter_DeserializesSimpleModel_FromArchetype()
         {
-            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor("simpleModel");
+            var json = _testHelpers.Console.GetArchetypeJsonFor("simpleModel");
             var archetype = json.JsonToModel<ArchetypeModel>();
             var model = archetype.ToModel<SimpleModel>();
 
@@ -91,7 +92,7 @@ namespace Archetype.Serializer.Test
         [Test]
         public void ArchetypeJsonConverter_DeserializesSimpleModelList_FromJson()
         {
-            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor("simpleModelList");
+            var json = _testHelpers.Console.GetArchetypeJsonFor("simpleModelList");
             var model = json.ToModel<SimpleModelList>();
 
             var expected = _testHelpers.GetSimpleModelList();
@@ -108,7 +109,7 @@ namespace Archetype.Serializer.Test
         [Test]
         public void ArchetypeJsonConverter_DeserializesSimpleModelList_FromArchetype()
         {
-            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor("simpleModelList");
+            var json = _testHelpers.Console.GetArchetypeJsonFor("simpleModelList");
             var archetype = json.JsonToModel<ArchetypeModel>();
             var model = archetype.ToModel<SimpleModelList>();
 
@@ -126,7 +127,7 @@ namespace Archetype.Serializer.Test
         [Test]
         public void ArchetypeJsonConverter_DeserializesNestedModel_FromJson()
         {
-            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor("nestedModel");
+            var json = _testHelpers.Console.GetArchetypeJsonFor("nestedModel");
             var model = json.ToModel<NestedModel>();
 
             Assert.IsInstanceOf<NestedModel>(model);
@@ -136,7 +137,7 @@ namespace Archetype.Serializer.Test
         [Test]
         public void ArchetypeJsonConverter_DeserializesNestedModel_FromArchetype()
         {
-            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor("nestedModel");
+            var json = _testHelpers.Console.GetArchetypeJsonFor("nestedModel");
             var archetype = json.JsonToModel<ArchetypeModel>();
             var model = archetype.ToModel<NestedModel>();
 
@@ -147,7 +148,7 @@ namespace Archetype.Serializer.Test
         [Test]
         public void ArchetypeJsonConverter_DeserializesNestedModelList_FromJson()
         {
-            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor("nestedModelList");
+            var json = _testHelpers.Console.GetArchetypeJsonFor("nestedModelList");
             var model = json.ToModel<NestedModelList>();
 
             var expected = _testHelpers.GetNestedModelList();
@@ -164,7 +165,7 @@ namespace Archetype.Serializer.Test
         [Test]
         public void ArchetypeJsonConverter_DeserializesNestedModelList_FromArchetype()
         {
-            var json = _testHelpers.ConsoleCommands.GetArchetypeJsonFor("nestedModelList");
+            var json = _testHelpers.Console.GetArchetypeJsonFor("nestedModelList");
             var archetype = json.JsonToModel<ArchetypeModel>();
             var model = archetype.ToModel<NestedModelList>();
 

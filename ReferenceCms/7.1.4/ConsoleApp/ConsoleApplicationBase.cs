@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Umbraco.Core;
+using Umbraco.Core.Services;
 
 namespace _7._1._4.ConsoleApp
 {

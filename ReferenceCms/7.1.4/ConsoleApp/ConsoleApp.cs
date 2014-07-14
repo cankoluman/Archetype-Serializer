@@ -18,9 +18,6 @@ namespace _7._1._4.ConsoleApp
         public ConsoleApp(ConsoleApplicationBase consoleApplicationBase)
         {
             ConsoleApplicationBase = consoleApplicationBase;
-            ConsoleApplicationBase.Start(ConsoleApplicationBase, new EventArgs());
-
-            Init();
         }
 
         public void Init()
@@ -30,6 +27,11 @@ namespace _7._1._4.ConsoleApp
             _serviceContext = _appContext.Services;            
         }
 
+        public void Start()
+        {            
+            ConsoleApplicationBase.Start(ConsoleApplicationBase, new EventArgs());
+            Init();
+        }
 
         public void Dispose()
         {

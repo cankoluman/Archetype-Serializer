@@ -11,7 +11,7 @@ namespace _7._1._4.ConsoleApp
 
         public Commands()
         {
-            ConsoleApp = new ConsoleApp(new ConsoleApplicationBase());
+            ConsoleApp = new ConsoleApp(new ConsoleApplicationBase()); 
         }
 
         public string GetArchetypeJsonFor(string propertyAlias)
@@ -33,7 +33,7 @@ namespace _7._1._4.ConsoleApp
         {
             var content = ConsoleApp.ContentService.GetPublishedVersion(pageId);
             content.SetValue(propertyAlias, json);
-            var status =  ConsoleApp.ContentService.SaveAndPublishWithStatus(content);
+            var status =  ConsoleApp.ContentService.SaveAndPublishWithStatus(content, 0, false);
 
             return status.Success;
         }
@@ -41,6 +41,11 @@ namespace _7._1._4.ConsoleApp
         public void ClearDbLog()
         {
             ConsoleApp.Database.Execute("DELETE FROM umbracoLog;");
+        }
+
+        public void Start()
+        {           
+            ConsoleApp.Start();
         }
 
         public void Exit()

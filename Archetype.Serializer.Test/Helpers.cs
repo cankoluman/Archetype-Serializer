@@ -1,19 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using Archetype.Models;
-using Newtonsoft.Json;
-using NUnit.Framework;
 using _7._1._4.ConsoleApp;
 
 namespace Archetype.Serializer.Test
 {
     public class Helpers
     {
-        public Commands ConsoleCommands { get; private set; }
+        public Commands Console { get; private set; }
 
         public Helpers()
         {
-            ConsoleCommands = new Commands();
+            Console = new Commands();
         }
 
         #region basic models
