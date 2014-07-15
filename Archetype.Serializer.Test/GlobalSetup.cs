@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Archetype.Serializer.Test.Helpers;
+﻿using Archetype.Serializer.Test.Helpers;
 using NUnit.Framework;
 
 namespace Archetype.Serializer.Test

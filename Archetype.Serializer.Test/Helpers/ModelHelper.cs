@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using _7._1._4.ConsoleApp;
 
 namespace Archetype.Serializer.Test.Helpers
 {
