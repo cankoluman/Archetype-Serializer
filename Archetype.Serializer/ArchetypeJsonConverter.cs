@@ -284,6 +284,20 @@ namespace Archetype.Serializer
                 var alias = property.Key;
                 var value = property.Value;
 
+                if (value != null 
+                    && Helpers.IsNonStringIEnumerableType(value.GetType()))
+                {
+                    foreach (var elt in value as IEnumerable)
+                    {
+                        fsProperties.Add(new JObject 
+                        {
+                            new JProperty("alias", alias), 
+                            new JProperty("value", GetJPropertyValue(elt))
+                        });                        
+                    }
+                    continue;
+                }
+
                 fsProperties.Add(new JObject 
                 {
                     new JProperty("alias", alias), 
@@ -339,13 +353,15 @@ namespace Archetype.Serializer
         {
             if (value == null)
                 return new JValue(String.Empty);
-            
-            return Helpers.IsArchetype(value)
-                ? new JRaw(JsonConvert.SerializeObject(value, this))
-                : Helpers.IsNonStringIEnumerableType(value.GetType()) &&
-                    Helpers.IsArchetype(Helpers.GetIEnumerableType(value.GetType()))
-                        ? new JRaw(SerializeModelToFieldset(value as IEnumerable))
-                        : new JValue(GetSerializedPropertyValue(value));
+
+            if (Helpers.IsArchetype(value))
+                return new JRaw(JsonConvert.SerializeObject(value, this));
+
+            if (Helpers.IsNonStringIEnumerableType(value.GetType()) &&
+                Helpers.IsArchetype(Helpers.GetIEnumerableType(value.GetType())))
+                return new JRaw(SerializeModelToFieldset(value as IEnumerable));
+
+            return new JValue(GetSerializedPropertyValue(value));
         }
 
         private string GetSerializedPropertyValue(object propValue)

@@ -103,6 +103,36 @@ namespace Archetype.Serializer.Test
             }
         }
 
+        [TestCase("NullableSimpleModelAsFieldsetsList")]
+        public void SimpleModelAsFieldsetsList_Serializes_And_Deserializes(string modelAlias)
+        {
+            var model = _modelHelper.GetNullableSimpleModelAsFieldsetsList();
+
+            Assert.IsNotNull(model);
+
+            var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
+            var actual = GetModelFromJson(modelAlias, json) as NullableSimpleModelAsFieldsetsList;
+
+            Assert.IsNotNull(actual);
+
+            var dateWithTime = (IList) actual.DateWithTimeField;
+            var textfield = (IList)actual.TextField;
+
+            for (var i = 0; i < dateWithTime.Count; i++)
+            {
+                Assert.AreEqual(((IList)model.DateWithTimeField)[i], dateWithTime[i]);
+            }
+
+            for (var i = 0; i < textfield.Count; i++)
+            {
+                Assert.AreEqual(((IList)model.TextField)[i], textfield[i]);
+            }
+
+            Assert.AreEqual(model.DateField, actual.DateField);
+            Assert.AreEqual(model.NodePicker, actual.NodePicker);
+            Assert.AreEqual(model.TrueFalse, actual.TrueFalse);
+        }
+
         [TestCase("MultiFieldsetModel", "MultiFieldsetModel", null)]
         [TestCase("NullableSimpleModelNull", "NullableSimpleModel", null)]
         [TestCase("NullableSimpleModelValues", "NullableSimpleModel", null)]
