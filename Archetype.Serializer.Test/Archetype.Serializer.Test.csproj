@@ -56,6 +56,7 @@
     <Compile Include="GlobalSetup.cs" />
     <Compile Include="Helpers\ConsoleHelper.cs" />
     <Compile Include="Helpers\ModelHelper.cs" />
+    <Compile Include="SerializationAdvancedModelTests.cs" />
     <Compile Include="SerializerHelperTests.cs" />
     <Compile Include="Models.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

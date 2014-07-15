@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Dynamic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Archetype.Serializer.Attributes;
@@ -49,6 +50,11 @@ namespace Archetype.Serializer
         public static bool IsSystemType(Type type)
         {
             return type.Namespace != null && type.Namespace.Equals("System");
+        }
+
+        public static bool IsExpandoObject(object value)
+        {
+            return value.GetType().Name.Equals(typeof(ExpandoObject).Name);
         }
 
         public static Type GetIEnumerableType(Type type)

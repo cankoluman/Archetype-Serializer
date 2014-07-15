@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Reflection;
 using Archetype.Models;
@@ -10,7 +11,9 @@ using Newtonsoft.Json.Linq;
 namespace Archetype.Serializer
 {
     public class ArchetypeJsonConverter : JsonConverter
-    {        
+    {
+        private const string _ROOT_FS_ALIAS = "rootFs";
+        
         #region public methods
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
@@ -223,7 +226,17 @@ namespace Archetype.Serializer
             if (null != models)
                 return models;
 
-            return new List<object>() { value };
+            if (Helpers.ArePropertiesFieldsets(value.GetType()))
+                return value.SerialiazableProperties()
+                .Select(p =>
+                {
+                    var fsModel = GetDynamicModel(p.JsonPropertyName());
+                    fsModel.Add(p.JsonPropertyName(), p.GetValue(value));
+                    return fsModel;
+                })
+                .ToList();
+
+                return new List<object>() { value };
         }
 
         private JObject SerializeModelToFieldset(IEnumerable models)
@@ -249,22 +262,44 @@ namespace Archetype.Serializer
 
         private string SerializeModel(object value)
         {
-            return value == null ? null : GetJObject(value).ToString(Formatting.None);
+            if (value == null)
+                return null;
+
+            var jObj = Helpers.IsExpandoObject(value)
+                ? GetJObjectFromExpandoObject(value as IDictionary<string, object>)
+                : GetJObject(value);
+
+            return jObj.ToString(Formatting.None);
+        }
+
+        private JObject GetJObjectFromExpandoObject(IDictionary<string, object> expandoObj)
+        {
+            var jObj = InitFieldset((string)expandoObj[_ROOT_FS_ALIAS]);
+
+            var fsProperties = new List<JObject>();
+
+            foreach (var item in expandoObj.SkipWhile(i => i.Key.Equals(_ROOT_FS_ALIAS)))
+            {
+                var property = item;
+                var alias = property.Key;
+                var value = property.Value;
+
+                fsProperties.Add(new JObject 
+                {
+                    new JProperty("alias", alias), 
+                    new JProperty("value", value != null 
+                        ? JsonConvert.SerializeObject(value, this) 
+                        : value)
+                });
+            }
+
+            jObj.Add("properties", new JRaw(JsonConvert.SerializeObject(fsProperties, this)));
+            return jObj;
         }
 
         private JObject GetJObject(object obj)
         {
-            var jObj = new JObject
-                {
-                    {
-                        "alias",
-                        new JValue(obj.GetType().FieldsetName())
-                    },
-                    {
-                        "disabled",
-                        false
-                    }
-                };
+            var jObj = InitFieldset(obj.GetType().FieldsetName());
 
             var properties = GetProperties(obj);
 
@@ -321,6 +356,28 @@ namespace Archetype.Serializer
                 return (bool)propValue ? GetSerializedPropertyValue(1) : GetSerializedPropertyValue(0);
 
             return String.Format("{0}", propValue);
+        }
+
+        private IDictionary<string, object> GetDynamicModel(string rootFsAlias)
+        {
+            var dynamicModel = new ExpandoObject() as IDictionary<string, object>;
+            dynamicModel.Add(_ROOT_FS_ALIAS, rootFsAlias);
+            return dynamicModel;
+        }
+
+        private JObject InitFieldset(string alias)
+        {
+            return new JObject
+            {
+                {
+                    "alias",
+                    new JValue(alias)
+                },
+                {
+                    "disabled",
+                    false
+                }
+            };
         }
 
         #endregion
