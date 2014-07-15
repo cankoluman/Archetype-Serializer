@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Archetype.Models;
 using Archetype.Serializer.Test.Base;
+using Archetype.Serializer.Test.Helpers;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
@@ -9,22 +10,19 @@ namespace Archetype.Serializer.Test
     [TestFixture]
     public class DeserializationAdvancedModelTests : TestBase
     {
-        private Helpers _testHelpers;
+        private ModelHelper _modelHelper;
         private int _pageId = 1070;
 
         [TestFixtureSetUp]
-        public void FixtureSetUp()
+        public void SetUp()
         {
-            _testHelpers = new Helpers();
-            _testHelpers.Console.Start();
+            _modelHelper = new ModelHelper();
         }
 
         [TestFixtureTearDown]
-        public void FixtureTearDown()
+        public void TearDown()
         {
-            _testHelpers.Console.ClearDbLog();
-            _testHelpers.Console.Exit();
-            _testHelpers = null;
+            _modelHelper = null;
         }
 
         [TestCase("multiFieldsetModel")]
@@ -35,7 +33,7 @@ namespace Archetype.Serializer.Test
         [TestCase("simpleModelAsFieldsetsList")]
         public void PropertyIsNotNullOrEmpty(string propAlias)
         {
-            Assert.IsNotNullOrEmpty(_testHelpers.Console.GetArchetypeJsonFor(propAlias, _pageId));
+            Assert.IsNotNullOrEmpty(ConsoleHelper.Instance.ConsoleCommands.GetArchetypeJsonFor(propAlias, _pageId));
         }
 
         [TestCase("multiFieldsetModel")]
@@ -46,7 +44,7 @@ namespace Archetype.Serializer.Test
         [TestCase("simpleModelAsFieldsetsList")]
         public void IsJsonValid(string propAlias)
         {
-            var json = _testHelpers.Console.GetArchetypeJsonFor(propAlias, _pageId);
+            var json = ConsoleHelper.Instance.ConsoleCommands.GetArchetypeJsonFor(propAlias, _pageId);
             Assert.DoesNotThrow(() => JsonConvert.DeserializeObject(json));
         }
 
@@ -58,7 +56,7 @@ namespace Archetype.Serializer.Test
         [TestCase("simpleModelAsFieldsetsList")]
         public void IsJsonValidArchetype(string propAlias)
         {
-            var json = _testHelpers.Console.GetArchetypeJsonFor(propAlias, _pageId);
+            var json = ConsoleHelper.Instance.ConsoleCommands.GetArchetypeJsonFor(propAlias, _pageId);
             Assert.DoesNotThrow(() => JsonConvert.DeserializeObject<ArchetypeModel>(json));
         }
 
@@ -70,7 +68,7 @@ namespace Archetype.Serializer.Test
         [TestCase("simpleModelAsFieldsetsList")]
         public void JsonDeserializesToArchetype(string propAlias)
         {
-            var json = _testHelpers.Console.GetArchetypeJsonFor(propAlias, _pageId);
+            var json = ConsoleHelper.Instance.ConsoleCommands.GetArchetypeJsonFor(propAlias, _pageId);
             var model = JsonConvert.DeserializeObject<ArchetypeModel>(json);
 
             Assert.IsInstanceOf<ArchetypeModel>(model);
@@ -80,114 +78,114 @@ namespace Archetype.Serializer.Test
         [Test]
         public void ArchetypeJsonConverter_DeserializesMultiFieldsetModel_FromJson()
         {
-            var json = _testHelpers.Console.GetArchetypeJsonFor("multiFieldsetModel", _pageId);
+            var json = ConsoleHelper.Instance.ConsoleCommands.GetArchetypeJsonFor("multiFieldsetModel", _pageId);
             var model = json.ToModel<MultiFieldsetModel>();
 
             Assert.IsInstanceOf<MultiFieldsetModel>(model);
-            AssertAreEqual(_testHelpers.GetMultiFieldsetModel(), model);
+            AssertAreEqual(_modelHelper.GetMultiFieldsetModel(), model);
         }
 
         [Test]
         public void ArchetypeJsonConverter_DeserializesMultiFieldsetModel_FromArchetype()
         {
-            var json = _testHelpers.Console.GetArchetypeJsonFor("multiFieldsetModel", _pageId);
+            var json = ConsoleHelper.Instance.ConsoleCommands.GetArchetypeJsonFor("multiFieldsetModel", _pageId);
             var archetype = json.JsonToModel<ArchetypeModel>();
             var model = archetype.ToModel<MultiFieldsetModel>();
 
             Assert.IsInstanceOf<MultiFieldsetModel>(model);
-            AssertAreEqual(_testHelpers.GetMultiFieldsetModel(), model);
+            AssertAreEqual(_modelHelper.GetMultiFieldsetModel(), model);
         }
 
         [Test]
         public void ArchetypeJsonConverter_DeserializesMultiFieldsetModelList_FromJson()
         {
-            var json = _testHelpers.Console.GetArchetypeJsonFor("multiFieldsetModelList", _pageId);
+            var json = ConsoleHelper.Instance.ConsoleCommands.GetArchetypeJsonFor("multiFieldsetModelList", _pageId);
             var model = json.ToModel<MultiFieldsetModelList>();
 
             Assert.IsInstanceOf<MultiFieldsetModelList>(model);
-            AssertAreEqual(_testHelpers.GetMultiFieldsetModelList(), model);
+            AssertAreEqual(_modelHelper.GetMultiFieldsetModelList(), model);
         }
 
         [Test]
         public void ArchetypeJsonConverter_DeserializesMultiFieldsetModelList_FromArchetype()
         {
-            var json = _testHelpers.Console.GetArchetypeJsonFor("multiFieldsetModelList", _pageId);
+            var json = ConsoleHelper.Instance.ConsoleCommands.GetArchetypeJsonFor("multiFieldsetModelList", _pageId);
             var archetype = json.JsonToModel<ArchetypeModel>();
             var model = archetype.ToModel<MultiFieldsetModelList>();            
 
             Assert.IsInstanceOf<MultiFieldsetModelList>(model);
-            AssertAreEqual(_testHelpers.GetMultiFieldsetModelList(), model);
+            AssertAreEqual(_modelHelper.GetMultiFieldsetModelList(), model);
         }
 
         [Test]
         public void ArchetypeJsonConverter_DeserializesNullableSimpleModel_WithNulls_FromJson()
         {
-            var json = _testHelpers.Console.GetArchetypeJsonFor("nullableSimpleModelNull", _pageId);
+            var json = ConsoleHelper.Instance.ConsoleCommands.GetArchetypeJsonFor("nullableSimpleModelNull", _pageId);
             var model = json.ToModel<NullableSimpleModel>();
 
             Assert.IsInstanceOf<NullableSimpleModel>(model);
-            AssertAreEqual(_testHelpers.GetNullableSimpleModelNulled(), model);
+            AssertAreEqual(_modelHelper.GetNullableSimpleModelNulled(), model);
         }
 
         [Test]
         public void ArchetypeJsonConverter_DeserializesNullableSimpleModel_WithNulls_FromArchetype()
         {
-            var json = _testHelpers.Console.GetArchetypeJsonFor("nullableSimpleModelNull", _pageId);
+            var json = ConsoleHelper.Instance.ConsoleCommands.GetArchetypeJsonFor("nullableSimpleModelNull", _pageId);
             var archetype = json.JsonToModel<ArchetypeModel>();
             var model = archetype.ToModel<NullableSimpleModel>();                 
 
             Assert.IsInstanceOf<NullableSimpleModel>(model);
-            AssertAreEqual(_testHelpers.GetNullableSimpleModelNulled(), model);
+            AssertAreEqual(_modelHelper.GetNullableSimpleModelNulled(), model);
         }
 
         [Test]
         public void ArchetypeJsonConverter_DeserializesNullableSimpleModel_WithValues_FromJson()
         {
-            var json = _testHelpers.Console.GetArchetypeJsonFor("nullableSimpleModelValues", _pageId);
+            var json = ConsoleHelper.Instance.ConsoleCommands.GetArchetypeJsonFor("nullableSimpleModelValues", _pageId);
             var model = json.ToModel<NullableSimpleModel>();
 
             Assert.IsInstanceOf<NullableSimpleModel>(model);
-            AssertAreEqual(_testHelpers.GetNullableSimpleModelPopulated(), model);
+            AssertAreEqual(_modelHelper.GetNullableSimpleModelPopulated(), model);
         }
 
         [Test]
         public void ArchetypeJsonConverter_DeserializesNullableSimpleModel_WithValues_FromArchetype()
         {
-            var json = _testHelpers.Console.GetArchetypeJsonFor("nullableSimpleModelValues", _pageId);
+            var json = ConsoleHelper.Instance.ConsoleCommands.GetArchetypeJsonFor("nullableSimpleModelValues", _pageId);
             var archetype = json.JsonToModel<ArchetypeModel>();
             var model = archetype.ToModel<NullableSimpleModel>();               
 
             Assert.IsInstanceOf<NullableSimpleModel>(model);
-            AssertAreEqual(_testHelpers.GetNullableSimpleModelPopulated(), model);
+            AssertAreEqual(_modelHelper.GetNullableSimpleModelPopulated(), model);
         }
 
         [Test]
         public void ArchetypeJsonConverter_DeserializesNullableSimpleModel_AsFieldsets_FromJson()
         {
-            var json = _testHelpers.Console.GetArchetypeJsonFor("simpleModelAsFieldsets", _pageId);
+            var json = ConsoleHelper.Instance.ConsoleCommands.GetArchetypeJsonFor("simpleModelAsFieldsets", _pageId);
             var model = json.ToModel<NullableSimpleModelAsFieldsets>();
 
             Assert.IsInstanceOf<NullableSimpleModelAsFieldsets>(model);
-            AssertAreEqual(_testHelpers.GetNullableSimpleModelAsFieldsets(), model);
+            AssertAreEqual(_modelHelper.GetNullableSimpleModelAsFieldsets(), model);
         }
 
         [Test]
         public void ArchetypeJsonConverter_DeserializesNullableSimpleModel_AsFieldsets_FromArchetype()
         {
-            var json = _testHelpers.Console.GetArchetypeJsonFor("simpleModelAsFieldsets", _pageId);
+            var json = ConsoleHelper.Instance.ConsoleCommands.GetArchetypeJsonFor("simpleModelAsFieldsets", _pageId);
             var archetype = json.JsonToModel<ArchetypeModel>();
             var model = archetype.ToModel<NullableSimpleModelAsFieldsets>();               
 
             Assert.IsInstanceOf<NullableSimpleModelAsFieldsets>(model);
-            AssertAreEqual(_testHelpers.GetNullableSimpleModelAsFieldsets(), model);
+            AssertAreEqual(_modelHelper.GetNullableSimpleModelAsFieldsets(), model);
         }
 
         [Test]
         public void ArchetypeJsonConverter_DeserializesNullableSimpleModel_AsFieldsetsList_FromJson()
         {
-            var json = _testHelpers.Console.GetArchetypeJsonFor("simpleModelAsFieldsetsList", _pageId);
+            var json = ConsoleHelper.Instance.ConsoleCommands.GetArchetypeJsonFor("simpleModelAsFieldsetsList", _pageId);
             var model = json.ToModel<NullableSimpleModelAsFieldsetsList>();
-            var expected = _testHelpers.GetNullableSimpleModelAsFieldsetsList();
+            var expected = _modelHelper.GetNullableSimpleModelAsFieldsetsList();
 
             Assert.IsInstanceOf<NullableSimpleModelAsFieldsetsList>(model);
 
@@ -207,10 +205,10 @@ namespace Archetype.Serializer.Test
         [Test]
         public void ArchetypeJsonConverter_DeserializesNullableSimpleModel_AsFieldsetsList_FromArchetype()
         {
-            var json = _testHelpers.Console.GetArchetypeJsonFor("simpleModelAsFieldsetsList", _pageId);
+            var json = ConsoleHelper.Instance.ConsoleCommands.GetArchetypeJsonFor("simpleModelAsFieldsetsList", _pageId);
             var archetype = json.JsonToModel<ArchetypeModel>();
             var model = archetype.ToModel<NullableSimpleModelAsFieldsetsList>();             
-            var expected = _testHelpers.GetNullableSimpleModelAsFieldsetsList();
+            var expected = _modelHelper.GetNullableSimpleModelAsFieldsetsList();
 
             Assert.IsInstanceOf<NullableSimpleModelAsFieldsetsList>(model);
 

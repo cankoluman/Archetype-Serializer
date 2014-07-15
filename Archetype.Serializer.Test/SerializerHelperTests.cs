@@ -8,8 +8,7 @@ using NUnit.Framework;
 namespace Archetype.Serializer.Test
 {
     [TestFixture]
-    [Ignore]
-    public class HelperTests
+    public class SerializerHelperTests
     {
         [TestCase(null, false)]
         [TestCase("", false)]

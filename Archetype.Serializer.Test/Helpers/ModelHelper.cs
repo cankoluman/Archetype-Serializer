@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using _7._1._4.ConsoleApp;
 
-namespace Archetype.Serializer.Test
+namespace Archetype.Serializer.Test.Helpers
 {
-    public class Helpers
+    public class ModelHelper
     {
-        public Commands Console { get; private set; }
-
-        public Helpers()
+        public ModelHelper()
         {
-            Console = new Commands();
         }
 
         #region basic models

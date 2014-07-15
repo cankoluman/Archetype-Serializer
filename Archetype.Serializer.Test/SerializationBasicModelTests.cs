@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Archetype.Models;
 using Archetype.Serializer.Test.Base;
+using Archetype.Serializer.Test.Helpers;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
@@ -9,28 +10,26 @@ namespace Archetype.Serializer.Test
     [TestFixture]
     public class SerializationBasicModelTests : TestBase
     {
-        private Helpers _testHelpers;
+        private ModelHelper _modelHelper;
         private const int _serializationTestsId = 1074;
 
-        [SetUp]
-        public void FixtureSetUp()
+        [TestFixtureSetUp]
+        public void SetUp()
         {
-            _testHelpers = new Helpers();
-            _testHelpers.Console.Start();
+            _modelHelper = new ModelHelper();
         }
 
-        [TearDown]
-        public void FixtureTearDown()
+        [TestFixtureTearDown]
+        public void TearDown()
         {
-            _testHelpers.Console.ClearDbLog();
-            _testHelpers.Console.Exit();
+            _modelHelper = null;
         }
 
         [TestCase("SimpleModel")]
         [TestCase("SimpleModelList")]
         public void Model_Serializes_ToArchetypeJson(string modelAlias)
         {
-            var model = _testHelpers.GetModel(modelAlias);
+            var model = _modelHelper.GetModel(modelAlias);
             var json = JsonConvert.SerializeObject(model, Formatting.Indented, new ArchetypeJsonConverter());
 
             Assert.IsTrue(Serializer.Helpers.IsArchetypeJson(json));
@@ -40,7 +39,7 @@ namespace Archetype.Serializer.Test
         [TestCase("SimpleModelList")]
         public void Model_Serializes_ToArchetype(string modelAlias)
         {
-            var model = _testHelpers.GetModel(modelAlias);
+            var model = _modelHelper.GetModel(modelAlias);
             var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
 
             Assert.IsInstanceOf<ArchetypeModel>(JsonConvert.DeserializeObject<ArchetypeModel>(json));
@@ -49,7 +48,7 @@ namespace Archetype.Serializer.Test
         [TestCase("SimpleModel")]
         public void Model_Serializes_And_Deserializes(string modelAlias)
         {
-            var model = _testHelpers.GetModel(modelAlias);
+            var model = _modelHelper.GetModel(modelAlias);
             var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
             var actual = GetModelFromJson(modelAlias, json);
 
@@ -57,9 +56,9 @@ namespace Archetype.Serializer.Test
         }
 
         [TestCase("SimpleModelList")]
-        public void SimpleModelList_Serializes_And_Deserializes(string modelAlias)
+        public void ModelList_Serializes_And_Deserializes(string modelAlias)
         {
-            var model = _testHelpers.GetModel(modelAlias) as IList;
+            var model = _modelHelper.GetModel(modelAlias) as IList;
             var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
             var actual = GetModelFromJson(modelAlias, json) as IList;
 
@@ -73,34 +72,34 @@ namespace Archetype.Serializer.Test
         [TestCase("SimpleModel")]
         public void Model_SaveAndPublish_ReturnsCorrectModel(string modelAlias)
         {
-            var model = _testHelpers.GetModel(modelAlias);
+            var model = _modelHelper.GetModel(modelAlias);
             var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
             var propAlias = ToPropertyAlias(modelAlias);
 
-            var result = _testHelpers.Console.SaveAndPublishArchetypeJson(propAlias, 
+            var result = ConsoleHelper.Instance.ConsoleCommands.SaveAndPublishArchetypeJson(propAlias, 
                 json, _serializationTestsId);
 
             Assert.AreEqual(true, result);
 
-            var resultJson = _testHelpers.Console.GetArchetypeJsonFor(propAlias, _serializationTestsId);
+            var resultJson = ConsoleHelper.Instance.ConsoleCommands.GetArchetypeJsonFor(propAlias, _serializationTestsId);
 
             var resultModel = GetModelFromJson(modelAlias, resultJson);
             AssertAreEqual(model, resultModel);
         }
 
         [TestCase("SimpleModelList")]
-        public void ListModel_SaveAndPublish_ReturnsCorrectModel(string modelAlias)
+        public void ModelList_SaveAndPublish_ReturnsCorrectModel(string modelAlias)
         {
-            var model = _testHelpers.GetModel(modelAlias) as IList;
+            var model = _modelHelper.GetModel(modelAlias) as IList;
             var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
             var propAlias = ToPropertyAlias(modelAlias);
 
-            var result = _testHelpers.Console.SaveAndPublishArchetypeJson(propAlias,
+            var result = ConsoleHelper.Instance.ConsoleCommands.SaveAndPublishArchetypeJson(propAlias,
                 json, _serializationTestsId);
 
             Assert.AreEqual(true, result);
 
-            var resultJson = _testHelpers.Console.GetArchetypeJsonFor(propAlias, _serializationTestsId);
+            var resultJson = ConsoleHelper.Instance.ConsoleCommands.GetArchetypeJsonFor(propAlias, _serializationTestsId);
 
             var resultModel = GetModelFromJson(modelAlias, resultJson) as IList;
 
