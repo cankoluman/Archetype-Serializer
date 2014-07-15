@@ -168,12 +168,12 @@ namespace Archetype.Serializer.Test.Helpers
             };
         }
 
-        public NullableSimpleModel GetNullableSimpleModelNulled()
+        public NullableSimpleModel GetNullableSimpleModelNull()
         {
             return new NullableSimpleModel();
         }
 
-        public NullableSimpleModel GetNullableSimpleModelPopulated()
+        public NullableSimpleModel GetNullableSimpleModelValues()
         {
             return new NullableSimpleModel
             {

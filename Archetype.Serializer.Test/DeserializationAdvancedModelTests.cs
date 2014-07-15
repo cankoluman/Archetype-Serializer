@@ -124,7 +124,7 @@ namespace Archetype.Serializer.Test
             var model = json.ToModel<NullableSimpleModel>();
 
             Assert.IsInstanceOf<NullableSimpleModel>(model);
-            AssertAreEqual(_modelHelper.GetNullableSimpleModelNulled(), model);
+            AssertAreEqual(_modelHelper.GetNullableSimpleModelNull(), model);
         }
 
         [Test]
@@ -135,7 +135,7 @@ namespace Archetype.Serializer.Test
             var model = archetype.ToModel<NullableSimpleModel>();                 
 
             Assert.IsInstanceOf<NullableSimpleModel>(model);
-            AssertAreEqual(_modelHelper.GetNullableSimpleModelNulled(), model);
+            AssertAreEqual(_modelHelper.GetNullableSimpleModelNull(), model);
         }
 
         [Test]
@@ -145,7 +145,7 @@ namespace Archetype.Serializer.Test
             var model = json.ToModel<NullableSimpleModel>();
 
             Assert.IsInstanceOf<NullableSimpleModel>(model);
-            AssertAreEqual(_modelHelper.GetNullableSimpleModelPopulated(), model);
+            AssertAreEqual(_modelHelper.GetNullableSimpleModelValues(), model);
         }
 
         [Test]
@@ -156,7 +156,7 @@ namespace Archetype.Serializer.Test
             var model = archetype.ToModel<NullableSimpleModel>();               
 
             Assert.IsInstanceOf<NullableSimpleModel>(model);
-            AssertAreEqual(_modelHelper.GetNullableSimpleModelPopulated(), model);
+            AssertAreEqual(_modelHelper.GetNullableSimpleModelValues(), model);
         }
 
         [Test]

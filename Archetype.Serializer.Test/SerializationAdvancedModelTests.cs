@@ -32,6 +32,8 @@ namespace Archetype.Serializer.Test
 
         [TestCase("MultiFieldsetModel")]
         [TestCase("MultiFieldsetModelList")]
+        [TestCase("NullableSimpleModelNull")]
+        [TestCase("NullableSimpleModelValues")]
         public void Model_Serializes_ToArchetypeJson(string modelAlias)
         {
             var model = _modelHelper.GetModel(modelAlias);
@@ -42,6 +44,8 @@ namespace Archetype.Serializer.Test
 
         [TestCase("MultiFieldsetModel")]
         [TestCase("MultiFieldsetModelList")]
+        [TestCase("NullableSimpleModelNull")]
+        [TestCase("NullableSimpleModelValues")]
         public void Model_Serializes_And_Deserializes_ToArchetype(string modelAlias)
         {
             var model = _modelHelper.GetModel(modelAlias);
@@ -50,10 +54,12 @@ namespace Archetype.Serializer.Test
             Assert.IsInstanceOf<ArchetypeModel>(JsonConvert.DeserializeObject<ArchetypeModel>(json));
         }
 
-        [TestCase("MultiFieldsetModel")]
-        public void Model_Serializes_And_Deserializes(string modelAlias)
+        [TestCase("MultiFieldsetModel", "MultiFieldsetModel")]
+        [TestCase("NullableSimpleModelNull", "NullableSimpleModel")]
+        [TestCase("NullableSimpleModelValues", "NullableSimpleModel")]
+        public void Model_Serializes_And_Deserializes(string modelHelperAlias, string modelAlias)
         {
-            var model = _modelHelper.GetModel(modelAlias);
+            var model = _modelHelper.GetModel(modelHelperAlias);
             var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
             var actual = GetModelFromJson(modelAlias, json);
 
@@ -80,12 +86,14 @@ namespace Archetype.Serializer.Test
             }
         }
 
-        [TestCase("MultiFieldsetModel")]
-        public void Model_SaveAndPublish_ReturnsCorrectModel(string modelAlias)
+        [TestCase("MultiFieldsetModel", "MultiFieldsetModel")]
+        [TestCase("NullableSimpleModelNull", "NullableSimpleModel")]
+        [TestCase("NullableSimpleModelValues", "NullableSimpleModel")]
+        public void Model_SaveAndPublish_ReturnsCorrectModel(string modelHelperAlias, string modelAlias)
         {
-            var model = _modelHelper.GetModel(modelAlias);
+            var model = _modelHelper.GetModel(modelHelperAlias);
             var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
-            var propAlias = ToPropertyAlias(modelAlias);
+            var propAlias = ToPropertyAlias(modelHelperAlias);
 
             var result = ConsoleHelper.Instance.ConsoleCommands.SaveAndPublishArchetypeJson(propAlias,
                 json, _serializationTestsId);

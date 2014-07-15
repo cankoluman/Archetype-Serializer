@@ -339,6 +339,9 @@ namespace Archetype.Serializer
 
         private object GetJPropertyValue(object value)
         {
+            if (value == null)
+                return new JValue(String.Empty);
+            
             return Helpers.IsArchetype(value)
                 ? new JRaw(JsonConvert.SerializeObject(value, this))
                 : Helpers.IsNonStringIEnumerableType(value.GetType()) &&
