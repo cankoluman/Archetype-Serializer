@@ -34,9 +34,14 @@ namespace Archetype.Serializer.Test
         [TestCase("MultiFieldsetModelList")]
         [TestCase("NullableSimpleModelNull")]
         [TestCase("NullableSimpleModelValues")]
+        [TestCase("NullableSimpleModelAsFieldsets")]
+        [TestCase("NullableSimpleModelAsFieldsetsList")]
         public void Model_Serializes_ToArchetypeJson(string modelAlias)
         {
             var model = _modelHelper.GetModel(modelAlias);
+
+            Assert.IsNotNull(model);
+
             var json = JsonConvert.SerializeObject(model, Formatting.Indented, new ArchetypeJsonConverter());
 
             Assert.IsTrue(Serializer.Helpers.IsArchetypeJson(json));
@@ -46,9 +51,14 @@ namespace Archetype.Serializer.Test
         [TestCase("MultiFieldsetModelList")]
         [TestCase("NullableSimpleModelNull")]
         [TestCase("NullableSimpleModelValues")]
+        [TestCase("NullableSimpleModelAsFieldsets")]
+        [TestCase("NullableSimpleModelAsFieldsetsList")]
         public void Model_Serializes_And_Deserializes_ToArchetype(string modelAlias)
         {
             var model = _modelHelper.GetModel(modelAlias);
+
+            Assert.IsNotNull(model);
+
             var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
 
             Assert.IsInstanceOf<ArchetypeModel>(JsonConvert.DeserializeObject<ArchetypeModel>(json));
@@ -57,9 +67,13 @@ namespace Archetype.Serializer.Test
         [TestCase("MultiFieldsetModel", "MultiFieldsetModel")]
         [TestCase("NullableSimpleModelNull", "NullableSimpleModel")]
         [TestCase("NullableSimpleModelValues", "NullableSimpleModel")]
+        [TestCase("NullableSimpleModelAsFieldsets", "NullableSimpleModelAsFieldsets")]
         public void Model_Serializes_And_Deserializes(string modelHelperAlias, string modelAlias)
         {
             var model = _modelHelper.GetModel(modelHelperAlias);
+
+            Assert.IsNotNull(model);
+
             var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
             var actual = GetModelFromJson(modelAlias, json);
 
@@ -70,6 +84,9 @@ namespace Archetype.Serializer.Test
         public void ModelList_Serializes_And_Deserializes(string modelAlias)
         {
             var model = _modelHelper.GetMultiFieldsetModelList();
+
+            Assert.IsNotNull(model);
+
             var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
             var actual = GetModelFromJson(modelAlias, json) as MultiFieldsetModelList;
 
@@ -86,14 +103,18 @@ namespace Archetype.Serializer.Test
             }
         }
 
-        [TestCase("MultiFieldsetModel", "MultiFieldsetModel")]
-        [TestCase("NullableSimpleModelNull", "NullableSimpleModel")]
-        [TestCase("NullableSimpleModelValues", "NullableSimpleModel")]
-        public void Model_SaveAndPublish_ReturnsCorrectModel(string modelHelperAlias, string modelAlias)
+        [TestCase("MultiFieldsetModel", "MultiFieldsetModel", null)]
+        [TestCase("NullableSimpleModelNull", "NullableSimpleModel", null)]
+        [TestCase("NullableSimpleModelValues", "NullableSimpleModel", null)]
+        [TestCase("NullableSimpleModelAsFieldsets", "NullableSimpleModelAsFieldsets", "simpleModelAsFieldsets")]
+        public void Model_SaveAndPublish_ReturnsCorrectModel(string modelHelperAlias, string modelAlias, string propertyAlias = null)
         {
             var model = _modelHelper.GetModel(modelHelperAlias);
+
+            Assert.IsNotNull(model);
+
             var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
-            var propAlias = ToPropertyAlias(modelHelperAlias);
+            var propAlias = propertyAlias ?? ToPropertyAlias(modelHelperAlias);
 
             var result = ConsoleHelper.Instance.ConsoleCommands.SaveAndPublishArchetypeJson(propAlias,
                 json, _serializationTestsId);
@@ -110,6 +131,9 @@ namespace Archetype.Serializer.Test
         public void ModelList_SaveAndPublish_ReturnsCorrectModel(string modelAlias)
         {
             var model = _modelHelper.GetMultiFieldsetModelList();
+
+            Assert.IsNotNull(model);
+
             var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
             var propAlias = ToPropertyAlias(modelAlias);
 

@@ -287,9 +287,7 @@ namespace Archetype.Serializer
                 fsProperties.Add(new JObject 
                 {
                     new JProperty("alias", alias), 
-                    new JProperty("value", value != null 
-                        ? JsonConvert.SerializeObject(value, this) 
-                        : value)
+                    new JProperty("value", GetJPropertyValue(value))
                 });
             }
 
