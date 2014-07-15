@@ -27,6 +27,7 @@ namespace Archetype.Serializer.Test
 
         [TestCase("SimpleModel")]
         [TestCase("SimpleModelList")]
+        [TestCase("NestedModel")]
         public void Model_Serializes_ToArchetypeJson(string modelAlias)
         {
             var model = _modelHelper.GetModel(modelAlias);
@@ -37,7 +38,8 @@ namespace Archetype.Serializer.Test
 
         [TestCase("SimpleModel")]
         [TestCase("SimpleModelList")]
-        public void Model_Serializes_ToArchetype(string modelAlias)
+        [TestCase("NestedModel")]
+        public void Model_Serializes_And_Deserializes_ToArchetype(string modelAlias)
         {
             var model = _modelHelper.GetModel(modelAlias);
             var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
@@ -46,6 +48,7 @@ namespace Archetype.Serializer.Test
         }
 
         [TestCase("SimpleModel")]
+        [TestCase("NestedModel")]
         public void Model_Serializes_And_Deserializes(string modelAlias)
         {
             var model = _modelHelper.GetModel(modelAlias);
@@ -70,6 +73,7 @@ namespace Archetype.Serializer.Test
 
         
         [TestCase("SimpleModel")]
+        [TestCase("NestedModel")]
         public void Model_SaveAndPublish_ReturnsCorrectModel(string modelAlias)
         {
             var model = _modelHelper.GetModel(modelAlias);

@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Archetype.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -307,7 +305,7 @@ namespace Archetype.Serializer
         private object GetJPropertyValue(object value)
         {
             return Helpers.IsArchetype(value)
-                ? new JRaw(JsonConvert.SerializeObject(value))
+                ? new JRaw(JsonConvert.SerializeObject(value, this))
                 : Helpers.IsNonStringIEnumerableType(value.GetType()) &&
                     Helpers.IsArchetype(Helpers.GetIEnumerableType(value.GetType()))
                         ? new JRaw(SerializeModelToFieldset(value as IEnumerable))
