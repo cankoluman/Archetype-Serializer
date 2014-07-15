@@ -63,13 +63,20 @@ namespace Archetype.Serializer.Test
         [TestCase("MultiFieldsetModelList")]
         public void ModelList_Serializes_And_Deserializes(string modelAlias)
         {
-            var model = _modelHelper.GetModel(modelAlias) as IList;
+            var model = _modelHelper.GetMultiFieldsetModelList();
             var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
-            var actual = GetModelFromJson(modelAlias, json) as IList;
+            var actual = GetModelFromJson(modelAlias, json) as MultiFieldsetModelList;
 
-            for (var i = 0; i < actual.Count; i++)
+            Assert.IsNotNull(actual);
+
+            for (var i = 0; i < actual.SimpleModelList.Count; i++)
             {
-                AssertAreEqual(model[i], actual[i]);
+                AssertAreEqual(model.SimpleModelList[i], actual.SimpleModelList[i]);
+            }
+
+            for (var i = 0; i < actual.NestedModelList.Count; i++)
+            {
+                AssertAreEqual(model.NestedModelList[i], actual.NestedModelList[i]);
             }
         }
 
@@ -94,7 +101,7 @@ namespace Archetype.Serializer.Test
         [TestCase("MultiFieldsetModelList")]
         public void ModelList_SaveAndPublish_ReturnsCorrectModel(string modelAlias)
         {
-            var model = _modelHelper.GetModel(modelAlias) as IList;
+            var model = _modelHelper.GetMultiFieldsetModelList();
             var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
             var propAlias = ToPropertyAlias(modelAlias);
 
@@ -105,11 +112,18 @@ namespace Archetype.Serializer.Test
 
             var resultJson = ConsoleHelper.Instance.ConsoleCommands.GetArchetypeJsonFor(propAlias, _serializationTestsId);
 
-            var resultModel = GetModelFromJson(modelAlias, resultJson) as IList;
+            var resultModel = GetModelFromJson(modelAlias, resultJson) as MultiFieldsetModelList;
 
-            for (var i = 0; i < resultModel.Count; i++)
+            Assert.IsNotNull(resultModel);
+
+            for (var i = 0; i < resultModel.SimpleModelList.Count; i++)
             {
-                AssertAreEqual(model[i], resultModel[i]);
+                AssertAreEqual(model.SimpleModelList[i], resultModel.SimpleModelList[i]);
+            }
+
+            for (var i = 0; i < resultModel.NestedModelList.Count; i++)
+            {
+                AssertAreEqual(model.NestedModelList[i], resultModel.NestedModelList[i]);
             }
         }
     }
