@@ -198,14 +198,14 @@ namespace Archetype.Serializer
             string propertyAlias)
         {
             var fieldsetList = fieldsets.ToList();
-            var selectedProperties = new Dictionary<int, ArchetypePropertyModel>();
+            var selectedProperties = new List<KeyValuePair<int, ArchetypePropertyModel>>();
 
             foreach (var fs in fieldsetList)
             {
-                foreach (var prop in fs.Properties.Where(p => p.Alias.Equals(propertyAlias)))
-                {
-                    selectedProperties.Add(fieldsetList.IndexOf(fs), prop);
-                }
+                selectedProperties.AddRange(fs.Properties
+                    .Where(p => p.Alias.Equals(propertyAlias))
+                    .Select(prop => 
+                        new KeyValuePair<int, ArchetypePropertyModel>(fieldsetList.IndexOf(fs), prop)));
             }
 
             return selectedProperties
