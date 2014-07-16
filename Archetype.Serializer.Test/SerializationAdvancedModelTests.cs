@@ -61,25 +61,6 @@ namespace Archetype.Serializer.Test
             Assert.IsInstanceOf<ArchetypeModel>(JsonConvert.DeserializeObject<ArchetypeModel>(json));
         }
 
-        [TestCase("NullableSimpleModelAsFieldsetsList", "simpleModelAsFieldsetsList")]
-        public void Model_Serializes_And_Preserves_Fieldsets(string modelAlias, string propAlias)
-        {
-            var referenceJson = ConsoleHelper.Instance.ConsoleCommands.GetArchetypeJsonFor(propAlias, _referenceJsonPageId);
-            var referenceArchetype = JsonConvert.DeserializeObject<ArchetypeModel>(referenceJson);
-
-            var model = _modelHelper.GetModel(modelAlias);
-            Assert.IsNotNull(model);
-
-            var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
-            var actualArchetype = JsonConvert.DeserializeObject<ArchetypeModel>(json);
-
-            Assert.AreEqual(GetFieldsetCount(referenceArchetype, "dateTime"),
-                GetFieldsetCount(actualArchetype, "dateTime"));
-
-            Assert.AreEqual(GetFieldsetCount(referenceArchetype, "textField"),
-                GetFieldsetCount(actualArchetype, "textField"));
-        }
-
         [TestCase("MultiFieldsetModel", "MultiFieldsetModel")]
         [TestCase("NullableSimpleModelNull", "NullableSimpleModel")]
         [TestCase("NullableSimpleModelValues", "NullableSimpleModel")]
@@ -241,6 +222,25 @@ namespace Archetype.Serializer.Test
             Assert.AreEqual(model.DateField, resultModel.DateField);
             Assert.AreEqual(model.NodePicker, resultModel.NodePicker);
             Assert.AreEqual(model.TrueFalse, resultModel.TrueFalse);
+        }
+
+        [TestCase("NullableSimpleModelAsFieldsetsList", "simpleModelAsFieldsetsList")]
+        public void Model_Serializes_And_Preserves_Fieldsets(string modelAlias, string propAlias)
+        {
+            var referenceJson = ConsoleHelper.Instance.ConsoleCommands.GetArchetypeJsonFor(propAlias, _referenceJsonPageId);
+            var referenceArchetype = JsonConvert.DeserializeObject<ArchetypeModel>(referenceJson);
+
+            var model = _modelHelper.GetModel(modelAlias);
+            Assert.IsNotNull(model);
+
+            var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
+            var actualArchetype = JsonConvert.DeserializeObject<ArchetypeModel>(json);
+
+            Assert.AreEqual(GetFieldsetCount(referenceArchetype, "dateTime"),
+                GetFieldsetCount(actualArchetype, "dateTime"));
+
+            Assert.AreEqual(GetFieldsetCount(referenceArchetype, "textField"),
+                GetFieldsetCount(actualArchetype, "textField"));
         }
 
         #region private methods
