@@ -188,6 +188,17 @@ namespace Archetype.Serializer
             return genericMethod.Invoke(fieldset, new object[] { propertyAlias });            
         }
 
+        private object GetArchetypePropValue(ArchetypePropertyModel property,
+            Type propertyType, string propertyAlias)
+        {
+            var method = property.GetType()
+                .GetMethods(BindingFlags.Public | BindingFlags.Instance)
+                .First(m => m.IsGenericMethod && m.Name.Equals("GetValue"));
+            var genericMethod = method.MakeGenericMethod(propertyType);
+
+            return genericMethod.Invoke(property, null);
+        }
+
         private object GetSytemTypeValue(IEnumerable<ArchetypeFieldsetModel> fieldsets,
             Type propertyType, string propertyAlias)
         {
@@ -197,21 +208,10 @@ namespace Archetype.Serializer
         private IEnumerable<T> GetIEnumerableSytemTypeValue<T>(IEnumerable<ArchetypeFieldsetModel> fieldsets,
             string propertyAlias)
         {
-            var fieldsetList = fieldsets.ToList();
-            var selectedProperties = new List<KeyValuePair<int, ArchetypePropertyModel>>();
-
-            foreach (var fs in fieldsetList)
-            {
-                selectedProperties.AddRange(fs.Properties
-                    .Where(p => p.Alias.Equals(propertyAlias))
-                    .Select(prop => 
-                        new KeyValuePair<int, ArchetypePropertyModel>(fieldsetList.IndexOf(fs), prop)));
-            }
-
-            return selectedProperties
-                .Select(p => (T) GetArchetypePropValue(fieldsetList.ElementAt(p.Key),
-                    typeof (T), propertyAlias))
-                .ToList();
+            return  fieldsets
+                        .SelectMany(fs => fs.Properties.Where(p => p.Alias.Equals(propertyAlias)))            
+                        .Select(p => GetArchetypePropValue(p, typeof (T), propertyAlias))
+                        .Cast<T>().ToList();
         }
 
         #endregion
