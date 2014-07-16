@@ -265,18 +265,17 @@ namespace Archetype.Serializer
             if (value == null)
                 return null;
 
-            var jObj = Helpers.IsExpandoObject(value)
-                ? GetJObjectFromExpandoObject(value as IDictionary<string, object>)
-                : GetJObject(value);
+            if (Helpers.IsExpandoObject(value))
+                return String.Join(",", 
+                    GetJObjectFromExpandoObject(value as IDictionary<string, object>)
+                    .Select(jObj => jObj.ToString(Formatting.None)));
 
-            return jObj.ToString(Formatting.None);
+            return GetJObject(value).ToString(Formatting.None);
         }
 
-        private JObject GetJObjectFromExpandoObject(IDictionary<string, object> expandoObj)
+        private IEnumerable<JObject> GetJObjectFromExpandoObject(IDictionary<string, object> expandoObj)
         {
-            var jObj = InitFieldset((string)expandoObj[_ROOT_FS_ALIAS]);
-
-            var fsProperties = new List<JObject>();
+            var jObjects = new List<JObject>();
 
             foreach (var item in expandoObj.SkipWhile(i => i.Key.Equals(_ROOT_FS_ALIAS)))
             {
@@ -287,23 +286,30 @@ namespace Archetype.Serializer
                 if (value != null 
                     && Helpers.IsNonStringIEnumerableType(value.GetType()))
                 {
-                    foreach (var elt in value as IEnumerable)
-                    {
-                        fsProperties.Add(new JObject 
-                        {
-                            new JProperty("alias", alias), 
-                            new JProperty("value", GetJPropertyValue(elt))
-                        });                        
-                    }
+                    jObjects
+                        .AddRange(from object elt in value as IEnumerable 
+                                  select GetJObject(expandoObj, alias, elt));
                     continue;
                 }
 
-                fsProperties.Add(new JObject 
-                {
-                    new JProperty("alias", alias), 
-                    new JProperty("value", GetJPropertyValue(value))
-                });
+                var jObj = GetJObject(expandoObj, alias, value);
+                jObjects.Add(jObj);
             }
+
+            return jObjects;
+        }
+
+        private JObject GetJObject(IDictionary<string, object> expandoObj, string alias, object value)
+        {
+            var jObj = InitFieldset((string)expandoObj[_ROOT_FS_ALIAS]);
+            var fsProperties = new List<JObject>
+            {
+                new JObject
+                {
+                    new JProperty("alias", alias),
+                    new JProperty("value", GetJPropertyValue(value))
+                }
+            };
 
             jObj.Add("properties", new JRaw(JsonConvert.SerializeObject(fsProperties, this)));
             return jObj;
