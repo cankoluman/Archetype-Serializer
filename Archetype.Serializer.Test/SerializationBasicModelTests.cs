@@ -32,7 +32,7 @@ namespace Archetype.Serializer.Test
         public void Model_Serializes_ToArchetypeJson(string modelAlias)
         {
             var model = _modelHelper.GetModel(modelAlias);
-            var json = JsonConvert.SerializeObject(model, Formatting.Indented, new ArchetypeJsonConverter());
+            var json = model.ToArchetypeJson(Formatting.Indented);                
 
             Assert.IsTrue(Serializer.Helpers.IsArchetypeJson(json));
         }
@@ -44,7 +44,7 @@ namespace Archetype.Serializer.Test
         public void Model_Serializes_And_Deserializes_ToArchetype(string modelAlias)
         {
             var model = _modelHelper.GetModel(modelAlias);
-            var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
+            var json = model.ToArchetypeJson();
 
             Assert.IsInstanceOf<ArchetypeModel>(JsonConvert.DeserializeObject<ArchetypeModel>(json));
         }
@@ -54,7 +54,7 @@ namespace Archetype.Serializer.Test
         public void Model_Serializes_And_Deserializes(string modelAlias)
         {
             var model = _modelHelper.GetModel(modelAlias);
-            var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
+            var json = model.ToArchetypeJson();
             var actual = GetModelFromJson(modelAlias, json);
 
             AssertAreEqual(model, actual);
@@ -65,7 +65,7 @@ namespace Archetype.Serializer.Test
         public void ModelList_Serializes_And_Deserializes(string modelAlias)
         {
             var model = _modelHelper.GetModel(modelAlias) as IList;
-            var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
+            var json = model.ToArchetypeJson();
             var actual = GetModelFromJson(modelAlias, json) as IList;
 
             for (var i = 0; i < actual.Count; i++)
@@ -80,7 +80,7 @@ namespace Archetype.Serializer.Test
         public void Model_SaveAndPublish_ReturnsCorrectModel(string modelAlias)
         {
             var model = _modelHelper.GetModel(modelAlias);
-            var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
+            var json = model.ToArchetypeJson();
             var propAlias = ToPropertyAlias(modelAlias);
 
             var result = ConsoleHelper.Instance.ConsoleCommands.SaveAndPublishArchetypeJson(propAlias, 
@@ -99,7 +99,7 @@ namespace Archetype.Serializer.Test
         public void ModelList_SaveAndPublish_ReturnsCorrectModel(string modelAlias)
         {
             var model = _modelHelper.GetModel(modelAlias) as IList;
-            var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
+            var json = model.ToArchetypeJson();
             var propAlias = ToPropertyAlias(modelAlias);
 
             var result = ConsoleHelper.Instance.ConsoleCommands.SaveAndPublishArchetypeJson(propAlias,

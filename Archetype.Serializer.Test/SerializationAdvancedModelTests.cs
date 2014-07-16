@@ -39,7 +39,7 @@ namespace Archetype.Serializer.Test
 
             Assert.IsNotNull(model);
 
-            var json = JsonConvert.SerializeObject(model, Formatting.Indented, new ArchetypeJsonConverter());
+            var json = model.ToArchetypeJson();
 
             Assert.IsTrue(Serializer.Helpers.IsArchetypeJson(json));
         }
@@ -56,7 +56,7 @@ namespace Archetype.Serializer.Test
 
             Assert.IsNotNull(model);
 
-            var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
+            var json = model.ToArchetypeJson();
 
             Assert.IsInstanceOf<ArchetypeModel>(JsonConvert.DeserializeObject<ArchetypeModel>(json));
         }
@@ -71,7 +71,7 @@ namespace Archetype.Serializer.Test
 
             Assert.IsNotNull(model);
 
-            var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
+            var json = model.ToArchetypeJson();
             var actual = GetModelFromJson(modelAlias, json);
 
             AssertAreEqual(model, actual);
@@ -84,7 +84,7 @@ namespace Archetype.Serializer.Test
 
             Assert.IsNotNull(model);
 
-            var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
+            var json = model.ToArchetypeJson();
             var actual = GetModelFromJson(modelAlias, json) as MultiFieldsetModelList;
 
             Assert.IsNotNull(actual);
@@ -107,7 +107,7 @@ namespace Archetype.Serializer.Test
 
             Assert.IsNotNull(model);
 
-            var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
+            var json = model.ToArchetypeJson();
             var actual = GetModelFromJson(modelAlias, json) as NullableSimpleModelAsFieldsetsList;
 
             Assert.IsNotNull(actual);
@@ -140,7 +140,7 @@ namespace Archetype.Serializer.Test
 
             Assert.IsNotNull(model);
 
-            var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
+            var json = model.ToArchetypeJson();
             var propAlias = propertyAlias ?? ToPropertyAlias(modelHelperAlias);
 
             var result = ConsoleHelper.Instance.ConsoleCommands.SaveAndPublishArchetypeJson(propAlias,
@@ -161,7 +161,7 @@ namespace Archetype.Serializer.Test
 
             Assert.IsNotNull(model);
 
-            var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
+            var json = model.ToArchetypeJson();
             var propAlias = ToPropertyAlias(modelAlias);
 
             var result = ConsoleHelper.Instance.ConsoleCommands.SaveAndPublishArchetypeJson(propAlias,
@@ -193,7 +193,7 @@ namespace Archetype.Serializer.Test
 
             Assert.IsNotNull(model);
 
-            var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());;
+            var json = model.ToArchetypeJson();
 
             var result = ConsoleHelper.Instance.ConsoleCommands.SaveAndPublishArchetypeJson(propertyAlias,
                 json, _serializationTestsId);
@@ -233,7 +233,7 @@ namespace Archetype.Serializer.Test
             var model = _modelHelper.GetModel(modelAlias);
             Assert.IsNotNull(model);
 
-            var json = JsonConvert.SerializeObject(model, new ArchetypeJsonConverter());
+            var json = model.ToArchetypeJson();
             var actualArchetype = JsonConvert.DeserializeObject<ArchetypeModel>(json);
 
             Assert.AreEqual(GetFieldsetCount(referenceArchetype, "dateTime"),

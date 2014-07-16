@@ -70,5 +70,10 @@ namespace Archetype.Serializer
             var jsonConverter = new ArchetypeJsonConverter();
             return (T)jsonConverter.DeserializeFieldsets(typeof(T), archetype);
         }
+
+        public static string ToArchetypeJson(this object obj, Formatting formatting = Formatting.None)
+        {
+            return JsonConvert.SerializeObject(obj, formatting, new ArchetypeJsonConverter());
+        }
     }
 }
