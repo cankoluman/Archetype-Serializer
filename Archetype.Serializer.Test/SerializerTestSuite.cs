@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace Archetype.Serializer.Test
 {
     [SetUpFixture]
-    public class GlobalSetup
+    public class SerializerTestSuite
     {
         [SetUp]
         public void SuiteSetUp()

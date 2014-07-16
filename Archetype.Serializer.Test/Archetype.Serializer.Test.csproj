@@ -53,7 +53,7 @@
   <ItemGroup>
     <Compile Include="DeserializationAdvancedModelTests.cs" />
     <Compile Include="Base\TestBase.cs" />
-    <Compile Include="GlobalSetup.cs" />
+    <Compile Include="SerializerTestSuite.cs" />
     <Compile Include="Helpers\ConsoleHelper.cs" />
     <Compile Include="Helpers\ModelHelper.cs" />
     <Compile Include="SerializationAdvancedModelTests.cs" />
