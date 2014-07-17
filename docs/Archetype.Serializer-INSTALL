@@ -7,7 +7,7 @@ git clone https://github.com/cankoluman/Archetype-Serializer.git
 cd Archetype-Serializer
 git checkout master
 %WINDIR%\Microsoft.NET\Framework\v4.0.30319\msbuild [/p:Configuration=Release|Debug]
-.nuget\nuget pack Archetype.Serializer\Archetype.Serializer.csproj -prop Configuration=Debug -sym -outputDirectory Archetype.Serializer
+.nuget\nuget pack Archetype.Serializer\Archetype.Serializer.csproj -outputDirectory Archetype.Serializer [-prop Configuration=Debug|Release] [-sym]
 
 or build in Visual Studio (2012)
 
