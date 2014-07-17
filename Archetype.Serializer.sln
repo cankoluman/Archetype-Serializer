@@ -21,6 +21,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7.1.4", "7.1.4", "{3B46370C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "7.1.4", "ReferenceCms\7.1.4\7.1.4.csproj", "{E2ED3D3A-1EDA-4034-84C0-BE0C3FC012D5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{F5BF2CFA-ECBA-465D-B6AE-64EF8BCC36FB}"
+	ProjectSection(SolutionItems) = preProject
+		docs\Archetype.Serializer-EXAMPLES = docs\Archetype.Serializer-EXAMPLES
+		docs\Archetype.Serializer-INSTALL = docs\Archetype.Serializer-INSTALL
+		docs\Archetype.Serializer-README = docs\Archetype.Serializer-README
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
