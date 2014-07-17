@@ -1,0 +1,73 @@
+----------------------------------------------
+Archetype.Serializer
+----------------------------------------------
+A lightweight serializer to convert an Umbraco Archetype datatype into a model and back.
+
+
+----------------------------------------------
+Usage
+----------------------------------------------
+
+Declaration:
+decorate the target class with the 
+'ArchetypeModel(string archetypeAlias, bool arePropertiesFieldsets)' attribute.
+
+[ArchetypeModel("simpleModel", true | false <default>)]
+Set arePropertiesFieldsets = true if you are using an Archetype with multiple 
+fieldsets, and want the model properties to correspond to fieldsets
+
+Also, to ensure correct retrieval of property values, decorate each property with
+[JsonProperty("<archetypePropertyName>")] - (from Newtonsoft)
+
+To exclude a property use
+[JsonIgnore] - (from Newtonsoft)
+
+Invocation:
+Via extension methods --
+Serialization - model.ToArchetypeJson(Formatting formatting = Formatting.None)
+Deserialization - archetypeJson.ToModel<T>(bool returnInstanceIfNull = false)
+Deserialization - (only in Umbraco web context with IPublishedContent extensions, 
+conversion from an archetype source model to a target model) 
+archetypeModel.ToModel<T>(bool returnInstanceIfNull = false)
+
+Direct invocation --
+Serialization - 
+JsonConvert.SerializeObject(object obj, Formatting formatting, 
+JsonConverter new ArchetypeJsonConverter())
+Deserialization - 
+JsonConvert.DeserializeObject<T>(string archetypeJson, JsonConverter new ArchetypeJsonConverter())
+
+----------------------------------------------
+Constraints
+----------------------------------------------
+Use cases:
+The serializer can accomodate nullable types, simple lists, as well as nested models. 
+It addresses serialization for most frequently encountered usage cases involving: 
+a single non-repeating archetype
+a single repeating archetype
+a non-repeating archetype with multiple fieldsets
+an archetype with multiple fieldsets some of which may be repeating.
+
+Nested archetypes:
+The serializer can handle nested archetypes, but as the level of nesting increases so does the 
+complexity of the models. So some trial and error may be necessary to get it working.
+
+Value conversion:
+Is done indirectly by invocation of the Archetype value converter. However, as the 
+serializer does not run in the back-end context, this defaults to the default Umbraco 
+value converter. As a consequence, for some data types, value conversion (e.g. macro 
+rendering) may not take place.
+
+C#:
+Some value types are assigned default values when uninitialized, e.g. int 0, bool false etc. 
+If you want to guarantee null for an uninitialized value type, use the nullable type.
+
+Serialization:
+Serialization produces json that is escaped to a level one less than the escaping found when 
+the archetype is saved as json via the backend. As fas as I can tell, this difference has 
+no adverse impact.
+
+----------------------------------------------
+Version History
+----------------------------------------------
+0.6.0-beta initial public release
