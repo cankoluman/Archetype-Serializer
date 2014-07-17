@@ -14,4 +14,9 @@
     <copyright>Copyright 2014</copyright>
     <tags>Umbraco, Archetype</tags>
   </metadata>
+    <files>
+		<file src="..\docs\Archetype.Serializer-INSTALL" target="content\Archetype.Serializer-INSTALL" />
+		<file src="..\docs\Archetype.Serializer-README" target="content\Archetype.Serializer-README" />
+		<file src="..\docs\Archetype.Serializer-EXAMPLES" target="content\Archetype.Serializer-EXAMPLES" />
+    </files>  
 </package>
