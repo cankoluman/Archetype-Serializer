@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/cankoluman/Archetype-Serializer</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Initial release, deserialization only.</releaseNotes>
+    <releaseNotes></releaseNotes>
     <copyright>Copyright 2014</copyright>
     <tags>Umbraco, Archetype</tags>
   </metadata>
