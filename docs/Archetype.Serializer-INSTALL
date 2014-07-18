@@ -1,0 +1,20 @@
+To Build
+-------------------------------
+requires .NET 4.5, Archetype (1.3.1-beta), Newtonsoft.Json (6.0.2)
+'ReferenceCms' project requires Umbraco 7.1.4 and its dependencies.
+
+git clone https://github.com/cankoluman/Archetype-Serializer.git
+cd Archetype-Serializer
+git checkout master
+%WINDIR%\Microsoft.NET\Framework\v4.0.30319\msbuild [/p:Configuration=Release|Debug]
+.nuget\nuget pack Archetype.Serializer\Archetype.Serializer.csproj -outputDirectory Archetype.Serializer [-prop Configuration=Debug|Release] [-sym]
+
+or build in Visual Studio (2012)
+
+
+To Install
+---------------------------------
+(1) Nuget Repository: https://www.nuget.org/packages?q=archetype+serializer, or
+(2) Umbraco Package: http://our.umbraco.org/projects/backoffice-extensions/archetypeserializer, or
+(3) Local nuget package (after build), or
+(4) Put dll in bin folder manually.

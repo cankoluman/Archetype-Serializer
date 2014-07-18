@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/cankoluman/Archetype-Serializer</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>$description$</description>
+    <releaseNotes>Initial release, deserialization only.</releaseNotes>
+    <copyright>Copyright 2014</copyright>
+    <tags>Umbraco, Archetype</tags>
+  </metadata>
+    <files>
+		<file src="..\docs\Archetype.Serializer-INSTALL" target="content\Archetype.Serializer-INSTALL" />
+		<file src="..\docs\Archetype.Serializer-README" target="content\Archetype.Serializer-README" />
+		<file src="..\docs\Archetype.Serializer-EXAMPLES" target="content\Archetype.Serializer-EXAMPLES" />
+    </files>  
+</package>

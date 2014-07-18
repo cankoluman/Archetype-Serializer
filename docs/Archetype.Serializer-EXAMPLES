@@ -1,0 +1,65 @@
+----------------------------------------------
+Examples
+----------------------------------------------
+Declaration:
+
+    [ArchetypeModel("simpleModel", true)] 				<-- a single non-repeating archetype
+    public class NullableSimpleModelAsFieldsetsList
+    {
+        [JsonProperty("date")]
+        [JsonIgnore]
+        public DateTime? DateField { get; set; }
+        [JsonProperty("dateTime")]
+        public IEnumerable<DateTime> DateWithTimeField { get; set; }
+        [JsonProperty("textField")]
+        public IEnumerable<string>  TextField { get; set; }
+        [JsonProperty("trueFalse")]
+        public bool TrueFalse { get; set; }
+        [JsonProperty("nodePicker")]
+        public int? NodePicker { get; set; }
+    }
+
+    [ArchetypeModel("simpleModel")]						<-- a single repeating archetype
+    public class SimpleModelList : List<SimpleModel>
+    {
+    }	
+	
+    [ArchetypeModel("simpleModel", true)]				<-- a non-repeating archetype with multiple fieldsets
+    public class NullableSimpleModelAsFieldsetsList
+    {
+        [JsonProperty("date")]
+        [JsonIgnore]
+        public DateTime? DateField { get; set; }
+        [JsonProperty("dateTime")]
+        public IEnumerable<DateTime> DateWithTimeField { get; set; }
+        [JsonProperty("textField")]
+        public IEnumerable<string>  TextField { get; set; }
+        [JsonProperty("trueFalse")]
+        public bool TrueFalse { get; set; }
+        [JsonProperty("nodePicker")]
+        public int? NodePicker { get; set; }
+    }	
+
+Deserialization:
+
+IPublishedContent in web context:
+var model = Umbraco.GetPropertyValue<ArchetypeModel>("<archetypeAlias>").ToModel<Model>();
+
+IContent in web or console context:
+IContent content = ApplicationContext.Services.ContentService.GetPublishedVersion(<pageId>);
+var model = content.GetValue<string>("<archetypeAlias>").ToModel<Model>();
+
+
+Serialization:
+
+var model = new Model();
+... set model values ...
+var archetypeJson = model.ToArchetypeJson();
+IContent content = ApplicationContext.Services.ContentService.GetPublishedVersion(<pageId>);
+or
+IContent content = ApplicationContext.Services.ContentService.CreateContent(nodeName, parentId, contentTypeAlias);
+content.SetValue("archetypeAlias", archetypeJson);
+var publishResult = ApplicationContext.Services.ContentService.SaveAndPublishWithStatus(content);
+
+
+

@@ -1,0 +1,38 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = null;
+}@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = null;
+}
+<html>
+	<head>
+	<title>@Umbraco.Field("pageName")</title>
+	</head>
+	<body>
+	    <fieldset style="border:1px solid #000;margin:2em;padding:2em;width:90%">
+	        <legend>Multi Fieldset Model</legend>
+	        @(Model.Content.GetProperty("multiFieldsetModel").DataValue)
+	    </fieldset>
+	    <fieldset style="border:1px solid #000;margin:2em;padding:2em;width:90%">
+	        <legend>Multi Fieldset Model List</legend>
+	        @(Model.Content.GetProperty("multiFieldsetModelList").DataValue)
+	    </fieldset>
+	    <fieldset style="border:1px solid #000;margin:2em;padding:2em;width:90%">
+	        <legend>Nullable Simple Model - Null</legend>
+	        @(Model.Content.GetProperty("nullableSimpleModelNull").DataValue)
+	    </fieldset>
+	    <fieldset style="border:1px solid #000;margin:2em;padding:2em;width:90%">
+	        <legend>Nullable Simple Model - Values</legend>
+	        @(Model.Content.GetProperty("nullableSimpleModelValues").DataValue)
+	    </fieldset>
+	    <fieldset style="border:1px solid #000;margin:2em;padding:2em;width:90%">
+	        <legend>Simple Model As Fieldsets</legend>
+	        @(Model.Content.GetProperty("simpleModelAsFieldsets").DataValue)
+	    </fieldset>
+	    <fieldset style="border:1px solid #000;margin:2em;padding:2em;width:90%">
+	        <legend>Simple Model As Fieldsets List</legend>
+	        @(Model.Content.GetProperty("simpleModelAsFieldsetsList").DataValue)
+	    </fieldset>
+	</body>
+	</html>

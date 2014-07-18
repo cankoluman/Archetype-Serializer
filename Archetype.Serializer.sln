@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archetype.Serializer", "Archetype.Serializer\Archetype.Serializer.csproj", "{09607BBA-7F23-45E8-8807-2CDF2AD5E3DE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{03018DD4-D191-442D-B214-37CFDBB221A3}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Archetype.Serializer.Test", "Archetype.Serializer.Test\Archetype.Serializer.Test.csproj", "{3192E32D-C9E0-45D0-9F40-B693DA006F1E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReferenceCms", "ReferenceCms", "{2061ADC1-05F8-4917-B33C-F1729C43B622}"
+	ProjectSection(SolutionItems) = preProject
+		ReferenceCms\login.txt = ReferenceCms\login.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7.1.4", "7.1.4", "{3B46370C-CF95-48CC-A21E-527425E8D596}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "7.1.4", "ReferenceCms\7.1.4\7.1.4.csproj", "{E2ED3D3A-1EDA-4034-84C0-BE0C3FC012D5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{F5BF2CFA-ECBA-465D-B6AE-64EF8BCC36FB}"
+	ProjectSection(SolutionItems) = preProject
+		docs\Archetype.Serializer-EXAMPLES = docs\Archetype.Serializer-EXAMPLES
+		docs\Archetype.Serializer-INSTALL = docs\Archetype.Serializer-INSTALL
+		docs\Archetype.Serializer-README = docs\Archetype.Serializer-README
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{09607BBA-7F23-45E8-8807-2CDF2AD5E3DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09607BBA-7F23-45E8-8807-2CDF2AD5E3DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09607BBA-7F23-45E8-8807-2CDF2AD5E3DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09607BBA-7F23-45E8-8807-2CDF2AD5E3DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3192E32D-C9E0-45D0-9F40-B693DA006F1E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3192E32D-C9E0-45D0-9F40-B693DA006F1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3192E32D-C9E0-45D0-9F40-B693DA006F1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3192E32D-C9E0-45D0-9F40-B693DA006F1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2ED3D3A-1EDA-4034-84C0-BE0C3FC012D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2ED3D3A-1EDA-4034-84C0-BE0C3FC012D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2ED3D3A-1EDA-4034-84C0-BE0C3FC012D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2ED3D3A-1EDA-4034-84C0-BE0C3FC012D5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3B46370C-CF95-48CC-A21E-527425E8D596} = {2061ADC1-05F8-4917-B33C-F1729C43B622}
+		{E2ED3D3A-1EDA-4034-84C0-BE0C3FC012D5} = {3B46370C-CF95-48CC-A21E-527425E8D596}
+	EndGlobalSection
+EndGlobal

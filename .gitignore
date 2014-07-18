@@ -172,3 +172,10 @@ UpgradeLog*.htm
 
 # Microsoft Fakes
 FakesAssemblies/
+
+
+#project specific
+Archetype/
+ReferenceCms/7.1.4/
+Archetype.Serializer/Archetype.Serializer.0.2.0-alpha.nupkg
+Archetype.Serializer/Archetype.Serializer.*.nupkg

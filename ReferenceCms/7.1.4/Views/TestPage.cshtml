@@ -1,0 +1,27 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = null;
+}
+<html>
+	<head>
+	<title>@Umbraco.Field("pageName")</title>
+	</head>
+	<body>
+	    <fieldset style="border:1px solid #000;margin:2em;padding:2em;width:90%">
+	        <legend>Simple Model</legend>
+	        @(Model.Content.GetProperty("simpleModel").DataValue)
+	    </fieldset>
+	    <fieldset style="border:1px solid #000;margin:2em;padding:2em;width:90%">
+	        <legend>Simple Model List</legend>
+	        @(Model.Content.GetProperty("simpleModelList").DataValue)
+	    </fieldset>
+	    <fieldset style="border:1px solid #000;margin:2em;padding:2em;width:90%">
+	        <legend>Nested Model</legend>
+	        @(Model.Content.GetProperty("nestedModel").DataValue)
+	    </fieldset>
+        <fieldset style="border:1px solid #000;margin:2em;padding:2em;width:90%">
+            <legend>Nested Model List</legend>
+            @(Model.Content.GetProperty("nestedModelList").DataValue)
+        </fieldset>
+	</body>
+	</html>
