@@ -14,7 +14,7 @@ or build in Visual Studio (2012)
 
 To Install
 ---------------------------------
-(1) Nuget Repository: , or
-(2) Umbraco Package: , or
-(2) Local nuget package (after build), or
-(3) Put dlls in bin folder manually.
+(1) Nuget Repository: https://www.nuget.org/packages?q=archetype+serializer, or
+(2) Umbraco Package: http://our.umbraco.org/projects/backoffice-extensions/archetypeserializer, or
+(3) Local nuget package (after build), or
+(4) Put dll in bin folder manually.
