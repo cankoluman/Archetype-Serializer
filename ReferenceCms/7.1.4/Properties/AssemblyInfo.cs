@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Archetype.Serializer")]
-[assembly: AssemblyDescription("A simple serializer to use with Archetype.")]
+[assembly: AssemblyTitle("_7._1._4.Properties")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Can Koluman")]
-[assembly: AssemblyProduct("Archetype.Serializer")]
+[assembly: AssemblyProduct("_7._1._4.Properties")]
 [assembly: AssemblyCopyright("Copyright © Can Koluman 2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("bb8e3f02-5e22-489e-9fdd-07397e2e65d6")]
+[assembly: Guid("b680bb3e-af6d-4f8f-9756-f46fd5efcce0")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -29,11 +29,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-// You can specify all the values or you can default the Build and Revision Numbers 
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.6.1")]
-[assembly: AssemblyInformationalVersion("0.6.1-beta")]
-[assembly: AssemblyFileVersion("0.6.1-beta")]
-
-[assembly: InternalsVisibleTo("Archetype.Serializer.Test")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]
